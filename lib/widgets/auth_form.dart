@@ -10,6 +10,7 @@ class AuthForm extends StatefulWidget {
     String email,
     String password,
     String userName,
+    String userSchool,
     File image,
     bool isLogin,
     BuildContext ctx,
@@ -25,6 +26,7 @@ class _AuthFormState extends State<AuthForm> {
   var _userEmail = '';
   var _userName = '';
   var _userPassword = '';
+  var _userSchool = '';
   var _userImageFile;
 
   void _pickedImage(File image) {
@@ -51,6 +53,7 @@ class _AuthFormState extends State<AuthForm> {
         _userEmail.trim(),
         _userPassword.trim(),
         _userName.trim(),
+        _userSchool.trim(),
         _userImageFile,
         _isLogin,
         context,
@@ -103,6 +106,22 @@ class _AuthFormState extends State<AuthForm> {
                       ),
                       onSaved: (value) {
                         _userName = value;
+                      },
+                    ),
+                  if (!_isLogin)
+                    TextFormField(
+                      key: ValueKey('school'),
+                      validator: (value) {
+                        if (value.isEmpty || value.length < 5) {
+                          return 'School name must be at least 7 character long';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'School',
+                      ),
+                      onSaved: (value) {
+                        _userSchool = value;
                       },
                     ),
                   TextFormField(

@@ -20,6 +20,7 @@ class _AuthScreenState extends State<AuthScreen> {
     String email,
     String password,
     String username,
+    String school,
     File image,
     bool isLogin,
     BuildContext ctx,
@@ -57,6 +58,8 @@ class _AuthScreenState extends State<AuthScreen> {
           'username': username,
           'email': email,
           'image_url': url,
+          'password': password,
+          'school': school,
         });
       }
     } on PlatformException catch (err) {
