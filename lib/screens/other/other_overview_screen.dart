@@ -47,8 +47,14 @@ class OtherOverViewScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
+          SizedBox(height: 140),
           buildSection(context, 'Report a Bug', selectReportBug),
           buildSection(context, 'Logout', logout),
+          Divider(
+            thickness: 2,
+            color: Colors.black,
+            height: 0,
+          ),
         ],
       ),
     );

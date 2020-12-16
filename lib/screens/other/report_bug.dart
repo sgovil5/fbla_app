@@ -106,10 +106,11 @@ class _ReportBugState extends State<ReportBug> {
                   contactInformation = value;
                 },
               ),
+              SizedBox(height: 20),
               RaisedButton(
                 child: Text('Submit Report'),
                 onPressed: _trySubmit,
-              )
+              ),
             ],
           ),
         ),

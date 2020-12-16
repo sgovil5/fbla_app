@@ -35,8 +35,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         type: BottomNavigationBarType.shifting,
-        unselectedItemColor: Colors.white,
+        unselectedItemColor: Colors.black,
         selectedItemColor: Colors.blueAccent,
+        backgroundColor: Colors.lightBlueAccent,
         currentIndex: _selectedPageIndex,
         selectedFontSize: 20,
         items: [
