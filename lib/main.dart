@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import './screens/auth_screen.dart';
+import 'screens/other/report_bug.dart';
+import 'screens/auth_screen.dart';
 import 'screens/bottom_nav_bar.dart';
 
 void main() {
@@ -27,7 +28,9 @@ class MyApp extends StatelessWidget {
         },
       ),
       initialRoute: '/',
-      routes: {},
+      routes: {
+        ReportBug.routeName: (ctx) => ReportBug(),
+      },
     );
   }
 }
