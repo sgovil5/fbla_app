@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/profile/profile_preview.dart';
+
 class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,7 @@ class ArticleSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    StreamBuilder(
+    return StreamBuilder(
       stream: Firestore.instance
           .collection('users')
           .where('searchKeywords', arrayContains: query.toLowerCase())
@@ -63,13 +65,36 @@ class ArticleSearch extends SearchDelegate<String> {
           );
         }
         final userData = userSnapshot.data.documents;
+        return Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              height: 40,
+              child: Text(
+                'These are a list of people matching the search "$query"',
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: userData.length,
+              itemBuilder: (ctx, index) {
+                return ProfilePreview(
+                  userData[index]['username'],
+                  userData[index]['image_url'],
+                  userData[index]['school'],
+                );
+              },
+            ),
+          ],
+        );
       },
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    StreamBuilder(
+    return StreamBuilder(
       stream: Firestore.instance
           .collection('users')
           .where('searchKeywords', arrayContains: query.toLowerCase())
@@ -81,15 +106,17 @@ class ArticleSearch extends SearchDelegate<String> {
           );
         }
         final userData = userSnapshot.data.documents;
-        ListView.builder(
+        return ListView.builder(
+          shrinkWrap: true,
           itemCount: userData.length,
           itemBuilder: (ctx, index) {
             return ListTile(
-                leading: Icon(Icons.person),
-                title: Text(userData[index]['name']),
-                onTap: () {
-                  //select user
-                });
+              leading: Icon(Icons.person),
+              title: Text(userData[index]['username']),
+              onTap: () {
+                //select user
+              },
+            );
           },
         );
       },

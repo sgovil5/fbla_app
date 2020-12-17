@@ -16,6 +16,16 @@ class _AuthScreenState extends State<AuthScreen> {
   final _auth = FirebaseAuth.instance;
   var _isLoading = false;
 
+  List<String> setSearchParam(String inputTitle) {
+    List<String> searchList = List();
+    String temp = "";
+    for (int i = 0; i < inputTitle.length; i++) {
+      temp = temp + inputTitle[i];
+      searchList.add(temp);
+    }
+    return searchList;
+  }
+
   void _submitAuthForm(
     String email,
     String password,
@@ -60,6 +70,13 @@ class _AuthScreenState extends State<AuthScreen> {
           'image_url': url,
           'password': password,
           'school': school,
+          'description': "",
+          'searchKeywords': setSearchParam(username.trim().toLowerCase()),
+          'achievements': [],
+          'classes': [],
+          'experiences': [],
+          'interests': [],
+          'test_scores': [],
         });
       }
     } on PlatformException catch (err) {

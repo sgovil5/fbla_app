@@ -89,12 +89,13 @@ class ProfileOverview extends StatelessWidget {
                       padding: EdgeInsets.all(15),
                       child: Text(userDocs['description']),
                     ),
-                    Container(
-                      child: Text(
-                        'This is a list of classes taken by ${userDocs['username']}',
-                        style: TextStyle(fontSize: 15),
+                    if (userDocs['classes'].length != 0)
+                      Container(
+                        child: Text(
+                          'This is a list of classes taken by ${userDocs['username']}',
+                          style: TextStyle(fontSize: 15),
+                        ),
                       ),
-                    ),
                     Container(
                       width: double.infinity,
                       child: ListView.builder(
@@ -109,13 +110,14 @@ class ProfileOverview extends StatelessWidget {
                         },
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 15),
-                      child: Text(
-                        'This is a list of test scores achieved by ${userDocs['username']}',
-                        style: TextStyle(fontSize: 15),
+                    if (userDocs['test_scores'].length != 0)
+                      Container(
+                        margin: EdgeInsets.only(top: 15),
+                        child: Text(
+                          'This is a list of test scores achieved by ${userDocs['username']}',
+                          style: TextStyle(fontSize: 15),
+                        ),
                       ),
-                    ),
                     Container(
                       width: double.infinity,
                       child: ListView.builder(
@@ -129,13 +131,14 @@ class ProfileOverview extends StatelessWidget {
                         },
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 15),
-                      child: Text(
-                        'This is a list of interests of ${userDocs['username']}',
-                        style: TextStyle(fontSize: 15),
+                    if (userDocs['interests'].length != 0)
+                      Container(
+                        margin: EdgeInsets.only(top: 15),
+                        child: Text(
+                          'This is a list of interests of ${userDocs['username']}',
+                          style: TextStyle(fontSize: 15),
+                        ),
                       ),
-                    ),
                     Container(
                       width: double.infinity,
                       child: ListView.builder(
@@ -148,13 +151,14 @@ class ProfileOverview extends StatelessWidget {
                         },
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 15),
-                      child: Text(
-                        'This is a list of achievements by ${userDocs['username']}',
-                        style: TextStyle(fontSize: 15),
+                    if (userDocs['achievements'].length != 0)
+                      Container(
+                        margin: EdgeInsets.only(top: 15),
+                        child: Text(
+                          'This is a list of achievements by ${userDocs['username']}',
+                          style: TextStyle(fontSize: 15),
+                        ),
                       ),
-                    ),
                     Container(
                       width: double.infinity,
                       child: ListView.builder(
@@ -168,13 +172,14 @@ class ProfileOverview extends StatelessWidget {
                         },
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 15),
-                      child: Text(
-                        'This is a list of professional experience of ${userDocs['username']}',
-                        style: TextStyle(fontSize: 15),
+                    if (userDocs['experiences'].length != 0)
+                      Container(
+                        margin: EdgeInsets.only(top: 15),
+                        child: Text(
+                          'This is a list of professional experience of ${userDocs['username']}',
+                          style: TextStyle(fontSize: 15),
+                        ),
                       ),
-                    ),
                     Container(
                       margin: EdgeInsets.only(bottom: 20),
                       width: double.infinity,
