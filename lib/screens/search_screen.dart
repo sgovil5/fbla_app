@@ -83,6 +83,7 @@ class ArticleSearch extends SearchDelegate<String> {
                   userData[index]['username'],
                   userData[index]['image_url'],
                   userData[index]['school'],
+                  userData[index],
                 );
               },
             ),

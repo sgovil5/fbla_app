@@ -7,7 +7,7 @@ import 'package:fbla_app/widgets/profile/test_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ProfileOverview extends StatelessWidget {
+class UserOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

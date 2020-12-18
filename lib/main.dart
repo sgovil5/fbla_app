@@ -1,8 +1,9 @@
+import 'package:fbla_app/screens/profile/profile_detail_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/other/report_bug.dart';
-import 'screens/auth_screen.dart';
+import 'screens/other/report_bug_screen.dart';
+import 'screens/auth/auth_screen.dart';
 import 'screens/bottom_nav_bar.dart';
 
 void main() {
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         ReportBug.routeName: (ctx) => ReportBug(),
+        ProfileDetail.routeName: (ctx) => ProfileDetail(),
       },
     );
   }

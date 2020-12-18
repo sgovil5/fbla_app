@@ -1,17 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fbla_app/screens/profile/profile_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePreview extends StatelessWidget {
   final String name;
   final String imageUrl;
   final String school;
+  final DocumentSnapshot user;
 
-  ProfilePreview(this.name, this.imageUrl, this.school);
+  ProfilePreview(this.name, this.imageUrl, this.school, this.user);
+
+  void selectProfile(BuildContext context, DocumentSnapshot userDocument) {
+    Navigator.of(context)
+        .pushNamed(
+      ProfileDetail.routeName,
+      arguments: userDocument,
+    )
+        .then((result) {
+      if (result != null) {}
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print("hi");
+        selectProfile(context, user);
       },
       child: Card(
         elevation: 0,

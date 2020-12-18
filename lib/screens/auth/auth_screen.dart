@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import '../widgets/auth_form.dart';
+import '../../widgets/auth_form.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
