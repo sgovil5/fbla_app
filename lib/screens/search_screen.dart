@@ -80,10 +80,7 @@ class ArticleSearch extends SearchDelegate<String> {
               itemCount: userData.length,
               itemBuilder: (ctx, index) {
                 return ProfilePreview(
-                  userData[index]['username'],
-                  userData[index]['image_url'],
-                  userData[index]['school'],
-                  userData[index],
+                  userData[index].documentId,
                 );
               },
             ),

@@ -18,19 +18,40 @@ class ProfileDetail extends StatelessWidget {
     return uid;
   }
 
+  Future<bool> checkFriends(
+      DocumentSnapshot recieveUser, String sendUser) async {
+    Firestore.instance
+        .collection('users')
+        .document(recieveUser.documentID)
+        .get()
+        .then((value) {
+      final userDoc = value;
+      List<dynamic> friendList = userDoc['friends'].toList();
+      if (friendList.contains(sendUser)) {
+        return true;
+      } else
+        return false;
+    });
+  }
+
+  void sendRequest(DocumentSnapshot recieveUser, String sendUser) {
+    Firestore.instance
+        .collection('users')
+        .document(recieveUser.documentID)
+        .updateData({
+      'pending': FieldValue.arrayUnion([sendUser])
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final DocumentSnapshot user = ModalRoute.of(context).settings.arguments;
     String myUid;
-
-    Future<void> getUser() async {
-      final FirebaseUser user = await auth.currentUser();
-      final String uid = user.uid.toString();
-      myUid = uid;
-    }
-
-    getUser();
-
+    bool areFriends;
+    getUser().then((value) {
+      myUid = value;
+      checkFriends(user, myUid).then((value) => areFriends = true);
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text(user['username']),
@@ -56,6 +77,45 @@ class ProfileDetail extends StatelessWidget {
                     );
                   },
                 );
+              } else {
+                if (!areFriends) {
+                  sendRequest(user, myUid);
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Request Sent'),
+                        content: Text('Your friend request has been sent'),
+                        actions: [
+                          FlatButton(
+                            child: Text("Okay"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Can\'t send request'),
+                        content: Text('You are already friends with this user'),
+                        actions: [
+                          FlatButton(
+                            child: Text("Okay"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      );
+                    },
+                  );
+                }
               }
             },
           ),

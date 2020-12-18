@@ -77,6 +77,8 @@ class _AuthScreenState extends State<AuthScreen> {
           'experiences': [],
           'interests': [],
           'test_scores': [],
+          'friends': [],
+          'pending': [],
         });
       }
     } on PlatformException catch (err) {

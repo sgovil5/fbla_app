@@ -101,6 +101,7 @@ class UserOverview extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: userDocs['classes'].length,
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (ctx, index) {
                           return ClassItem(
                             userDocs['classes'][index]['class'],
@@ -123,6 +124,7 @@ class UserOverview extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: userDocs['test_scores'].length,
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (ctx, index) {
                           return TestItem(
                             userDocs['test_scores'][index]['test'],
@@ -144,6 +146,7 @@ class UserOverview extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: userDocs['interests'].length,
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (ctx, index) {
                           return InterestItem(
                             userDocs['interests'][index],
@@ -164,6 +167,7 @@ class UserOverview extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: userDocs['achievements'].length,
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (ctx, index) {
                           return AchievementItem(
                             userDocs['achievements'][index]['achievement'],
@@ -186,6 +190,7 @@ class UserOverview extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: userDocs['experiences'].length,
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (ctx, index) {
                           return ExperienceItem(
                             userDocs['experiences'][index]['experience'],
