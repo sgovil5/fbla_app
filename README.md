@@ -4,11 +4,11 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 
 # Features
 - [Login](#Login)
-- [Heading](#About-Me)
-- [Heading](#Edit-Profile)
-- [Heading](#Friends)
-- [Heading](#Search)
-- [Heading](#Report-Bug)
+- [About Me](#About-Me)
+- [Edit Profile](#Edit-Profile)
+- [Friends](#Friends)
+- [Search](#Search)
+- [Report Bug](#Report-Bug)
 
 > Fix toc later it refuses to work
 <!-- toc -->
