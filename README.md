@@ -1,16 +1,28 @@
-# fbla_app
+# Resudent
 
-A new Flutter project.
+An Application created for _Mobile Application Development_, an FBLA Competitive Event. 
 
-## Getting Started
+# Features
+- [Login](#Login)
+- [About Me](#About-Me)
+- [Edit Profile](#Edit-Profile)
+- [Friends](#Friends)
+- [Search](#Search)
+- [Report Bug](#Report-Bug)
 
-This project is a starting point for a Flutter application.
+> Fix toc later it refuses to work
+<!-- toc -->
+    
+## Login
+- You have the ability to create an account using the Sign Up button. 
+    * Requires Email, School, Username, and Password.
+    * Alternatively, you may login using Facebook.
+- Other than that it's a fairly straightforward process, everything is handled by Google's Firebase.
+## About Me
+- Displays basic profile information. 
+    * Name, School, Profile Picture (can be uploaded from device), 
+## Edit Profile
+## Search
+## Report Bug
+## Chat
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
