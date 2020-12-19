@@ -118,7 +118,7 @@ class PendingItem extends StatelessWidget {
                                   return AlertDialog(
                                     title: Text('Request Accepted'),
                                     content: Text(
-                                      'You and ${userDocs['name']} are now friends',
+                                      'You are now friends',
                                     ),
                                     actions: [
                                       FlatButton(
@@ -144,7 +144,7 @@ class PendingItem extends StatelessWidget {
                                   return AlertDialog(
                                     title: Text('Request Declined'),
                                     content: Text(
-                                      'You have declined ${userDocs['name']}\'s request',
+                                      'You have declined the request',
                                     ),
                                     actions: [
                                       FlatButton(

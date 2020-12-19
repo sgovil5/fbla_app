@@ -112,8 +112,8 @@ class _AuthFormState extends State<AuthForm> {
                     TextFormField(
                       key: ValueKey('school'),
                       validator: (value) {
-                        if (value.isEmpty || value.length < 5) {
-                          return 'School name must be at least 7 character long';
+                        if (value.isEmpty || value.length < 3) {
+                          return 'School name must be at least 3 character long';
                         }
                         return null;
                       },

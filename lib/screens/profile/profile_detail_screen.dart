@@ -20,6 +20,7 @@ class ProfileDetail extends StatelessWidget {
 
   Future<bool> checkFriends(
       DocumentSnapshot recieveUser, String sendUser) async {
+    bool val = false;
     Firestore.instance
         .collection('users')
         .document(recieveUser.documentID)
@@ -28,10 +29,10 @@ class ProfileDetail extends StatelessWidget {
       final userDoc = value;
       List<dynamic> friendList = userDoc['friends'].toList();
       if (friendList.contains(sendUser)) {
-        return true;
-      } else
-        return false;
+        val = true;
+      }
     });
+    return val;
   }
 
   void sendRequest(DocumentSnapshot recieveUser, String sendUser) {
@@ -78,7 +79,7 @@ class ProfileDetail extends StatelessWidget {
                   },
                 );
               } else {
-                if (!areFriends) {
+                if (areFriends) {
                   sendRequest(user, myUid);
                   showDialog(
                     context: context,
