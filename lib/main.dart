@@ -1,4 +1,5 @@
 import 'package:fbla_app/screens/profile/profile_detail_screen.dart';
+import 'package:fbla_app/screens/profile/profile_edit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
+        ProfileEdit.routeName: (ctx) => ProfileEdit(),
         ReportBug.routeName: (ctx) => ReportBug(),
         ProfileDetail.routeName: (ctx) => ProfileDetail(),
       },
