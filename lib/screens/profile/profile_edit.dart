@@ -231,10 +231,176 @@ class _ProfileEditState extends State<ProfileEdit> {
                       },
                     );
                   },
-                )
+                ),
+                //This is for test scores
+                Container(
+                  height: 40,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text(
+                    "Edit your test scores", //Edit every category
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount:
+                      userDocs['test_scores'].length, //Edit every category
+                  itemBuilder: (context, index) {
+                    return Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                          child: Text(
+                            userDocs['test_scores'][index]['test'], //EDit here
+                            style: TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                          child: Text(
+                            userDocs['test_scores'][index]['score'], //Edit here
+                            style: TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: IconButton(
+                            alignment: Alignment.center,
+                            icon: Icon(Icons.delete),
+                            color: Colors.red,
+                            onPressed: () {
+                              deleteItem(userDocs, 'test_scores', index);
+                            },
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                ),
+                IconButton(
+                  alignment: Alignment.center,
+                  icon: Icon(Icons.add_circle_outline),
+                  color: Colors.green,
+                  onPressed: () {
+                    String test; //EDit
+                    String score; //Edit
+                    final GlobalKey<FormState> _formKey =
+                        GlobalKey<FormState>();
+                    void trySubmit() async {
+                      final isValid = _formKey.currentState.validate();
+                      FocusScope.of(context).unfocus();
+                      if (isValid) {
+                        _formKey.currentState.save();
+                        try {
+                          await Firestore.instance
+                              .collection('users')
+                              .document(userId)
+                              .updateData({
+                            'test_scores': FieldValue.arrayUnion([
+                              //Edit
+                              {
+                                'test': test,
+                                'score': score,
+                              } //Edit
+                            ])
+                          }).then(
+                            (value) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title:
+                                        Text('Your test score was submitted'),
+                                    content: Text(
+                                        'It will now show up on your profile'),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text('Okay'),
+                                        onPressed: () {
+                                          _formKey.currentState.reset();
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        } on PlatformException catch (e) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('There was an error'),
+                                content: Text(e.message),
+                                actions: [
+                                  FlatButton(
+                                    child: Text('Okay'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }
+                    }
+
+                    showBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: 'Enter the test'),
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return 'Your test cannot be empty';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (String value) {
+                                  test = value;
+                                },
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: 'Enter the score you got'),
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return 'Your score cannot be empty';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (String value) {
+                                  score = value;
+                                },
+                              ),
+                              SizedBox(height: 20),
+                              RaisedButton(
+                                child: Text('Submit'),
+                                onPressed: () {
+                                  trySubmit();
+                                },
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
               ],
             ),
-            //Copy above template and make according edits
           );
         },
       ),
