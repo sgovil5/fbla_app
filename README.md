@@ -11,6 +11,7 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 - [Report Bug](#Report-Bug)
 
 > check if toc works.
+> what else to add
 <!-- toc -->
     
 ## Login
@@ -36,3 +37,7 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 - 
 > add info on chat later o_O.
 
+# App Specifications
+This app was made using Flutter, and utilizes Google's Firebase as a backend
+- Authorization (the sign-in process), and all other app data is stored and accessed using Firebase.
+- As the app was made using Flutter, there is native support for iOS and Android.
