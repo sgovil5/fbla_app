@@ -68,8 +68,8 @@ class UserOverview extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    alignment: Alignment.bottomCenter,
-                                    padding: EdgeInsets.all(15),
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.only(top: 15),
                                     child: Text(
                                       userDocs['school'],
                                       textAlign: TextAlign.center,
