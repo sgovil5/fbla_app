@@ -33,7 +33,7 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 ## Report Bug
 - Allows user to report any problems and/or bugs.
     * User may input contact information.
-## Chat
+## Chat (INCOMPLETE)
 - 
 > add info on chat later o_O.
 
@@ -41,3 +41,31 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 This app was made using Flutter, and utilizes Google's Firebase as a backend
 - Authorization (the sign-in process), and all other app data is stored and accessed using Firebase.
 - As the app was made using Flutter, there is native support for iOS and Android.
+
+# Buttons
+- A short description of most, if not all, of the buttons contained in the app.
+## Navigation Bar (INCOMPLETE)
+- My Profile: takes user to the my profile page. 
+- Friends: takes user to friends page, where they can accept/decline friend requests and navigate to friend profiles.
+- Search: allows user to search by name, school, or interests.
+- Other: takes user to a page where they can report a bug, ______, ______
+
+## Login
+- Login: allows user to login with correct validation.
+- Create An Account: redirects user to the Sign Up page.
+- Upload Image: allows user to upload an image from their device to serve as a profile picture.
+- Sign Up: allows user to create an account after filling in all required fields. 
+## About Me
+- Edit Profile: takes user to the edit profile page, where they can edit information on their profile page.
+## Edit Profile
+These stay similar across categories
+- Add: labeled with a "+", lets the user add an item of selected type to display. Note that there are multiple steps to adding an item, and the rest is displayed in a pop-up
+- Remove: labeled with a "-", lets the user remove an item of selected type. One step process.
+## Search
+- Search by name, school, or interests: Press the desired button to search by selected parameter.
+## Report Bug
+- Allows user to report any problems and/or bugs.
+    * User may input contact information.
+## Chat (INCOMPLETE)
+- 
+> add info on chat later o_O.
