@@ -399,6 +399,480 @@ class _ProfileEditState extends State<ProfileEdit> {
                     );
                   },
                 ),
+                // This is for interests
+                Container(
+                  height: 40,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text(
+                    "Edit your interests", //Edit every category
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: userDocs['interests'].length, //Edit every category
+                  itemBuilder: (context, index) {
+                    return Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                          child: Text(
+                            userDocs['interests'][index], //EDit here
+                            style: TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: IconButton(
+                            alignment: Alignment.center,
+                            icon: Icon(Icons.delete),
+                            color: Colors.red,
+                            onPressed: () {
+                              deleteItem(userDocs, 'interests', index);
+                            },
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                ),
+                IconButton(
+                  alignment: Alignment.center,
+                  icon: Icon(Icons.add_circle_outline),
+                  color: Colors.green,
+                  onPressed: () {
+                    String interest; //EDit
+                    final GlobalKey<FormState> _formKey =
+                        GlobalKey<FormState>();
+                    void trySubmit() async {
+                      final isValid = _formKey.currentState.validate();
+                      FocusScope.of(context).unfocus();
+                      if (isValid) {
+                        _formKey.currentState.save();
+                        try {
+                          await Firestore.instance
+                              .collection('users')
+                              .document(userId)
+                              .updateData({
+                            'interests': FieldValue.arrayUnion([interest])
+                          }).then(
+                            (value) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Your interest was submitted'),
+                                    content: Text(
+                                        'It will now show up on your profile'),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text('Okay'),
+                                        onPressed: () {
+                                          _formKey.currentState.reset();
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        } on PlatformException catch (e) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('There was an error'),
+                                content: Text(e.message),
+                                actions: [
+                                  FlatButton(
+                                    child: Text('Okay'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }
+                    }
+
+                    showBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: 'Enter the interest'),
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return 'Your interest cannot be empty';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (String value) {
+                                  interest = value;
+                                },
+                              ),
+                              SizedBox(height: 20),
+                              RaisedButton(
+                                child: Text('Submit'),
+                                onPressed: () {
+                                  trySubmit();
+                                },
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                //This is for achievements
+                Container(
+                  height: 40,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text(
+                    "Edit your achievements", //Edit every category
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount:
+                      userDocs['achievements'].length, //Edit every category
+                  itemBuilder: (context, index) {
+                    return Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                          child: Text(
+                            userDocs['achievements'][index]
+                                ['achievement'], //EDit here
+                            style: TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                          child: Text(
+                            userDocs['achievements'][index]['year'], //Edit here
+                            style: TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: IconButton(
+                            alignment: Alignment.center,
+                            icon: Icon(Icons.delete),
+                            color: Colors.red,
+                            onPressed: () {
+                              deleteItem(userDocs, 'achievements', index);
+                            },
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                ),
+                IconButton(
+                  alignment: Alignment.center,
+                  icon: Icon(Icons.add_circle_outline),
+                  color: Colors.green,
+                  onPressed: () {
+                    String achievement; //EDit
+                    String year; //Edit
+                    final GlobalKey<FormState> _formKey =
+                        GlobalKey<FormState>();
+                    void trySubmit() async {
+                      final isValid = _formKey.currentState.validate();
+                      FocusScope.of(context).unfocus();
+                      if (isValid) {
+                        _formKey.currentState.save();
+                        try {
+                          await Firestore.instance
+                              .collection('users')
+                              .document(userId)
+                              .updateData({
+                            'achievements': FieldValue.arrayUnion([
+                              //Edit
+                              {
+                                'achievement': achievement,
+                                'year': year,
+                              } //Edit
+                            ])
+                          }).then(
+                            (value) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title:
+                                        Text('Your achievement was submitted'),
+                                    content: Text(
+                                        'It will now show up on your profile'),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text('Okay'),
+                                        onPressed: () {
+                                          _formKey.currentState.reset();
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        } on PlatformException catch (e) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('There was an error'),
+                                content: Text(e.message),
+                                actions: [
+                                  FlatButton(
+                                    child: Text('Okay'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }
+                    }
+
+                    showBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: 'Enter the achievement'),
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return 'Your achievement cannot be empty';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (String value) {
+                                  achievement = value;
+                                },
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: 'Enter the year'),
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return 'Your year cannot be empty';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (String value) {
+                                  year = value;
+                                },
+                              ),
+                              SizedBox(height: 20),
+                              RaisedButton(
+                                child: Text('Submit'),
+                                onPressed: () {
+                                  trySubmit();
+                                },
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                //This is for experiences
+                Container(
+                  height: 40,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text(
+                    "Edit your experiences", //Edit every category
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount:
+                      userDocs['experiences'].length, //Edit every category
+                  itemBuilder: (context, index) {
+                    return Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                          child: Text(
+                            userDocs['experiences'][index]
+                                ['experience'], //EDit here
+                            style: TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                          child: Text(
+                            userDocs['achievements'][index]['year'], //Edit here
+                            style: TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: IconButton(
+                            alignment: Alignment.center,
+                            icon: Icon(Icons.delete),
+                            color: Colors.red,
+                            onPressed: () {
+                              deleteItem(userDocs, 'experiences', index);
+                            },
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                ),
+                IconButton(
+                  alignment: Alignment.center,
+                  icon: Icon(Icons.add_circle_outline),
+                  color: Colors.green,
+                  onPressed: () {
+                    String achievement; //EDit
+                    String year; //Edit
+                    final GlobalKey<FormState> _formKey =
+                        GlobalKey<FormState>();
+                    void trySubmit() async {
+                      final isValid = _formKey.currentState.validate();
+                      FocusScope.of(context).unfocus();
+                      if (isValid) {
+                        _formKey.currentState.save();
+                        try {
+                          await Firestore.instance
+                              .collection('users')
+                              .document(userId)
+                              .updateData({
+                            'experiences': FieldValue.arrayUnion([
+                              //Edit
+                              {
+                                'experience': achievement,
+                                'year': year,
+                              } //Edit
+                            ])
+                          }).then(
+                            (value) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title:
+                                        Text('Your experience was submitted'),
+                                    content: Text(
+                                        'It will now show up on your profile'),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text('Okay'),
+                                        onPressed: () {
+                                          _formKey.currentState.reset();
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        } on PlatformException catch (e) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('There was an error'),
+                                content: Text(e.message),
+                                actions: [
+                                  FlatButton(
+                                    child: Text('Okay'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }
+                    }
+
+                    showBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: 'Enter the experience'),
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return 'Your experience cannot be empty';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (String value) {
+                                  achievement = value;
+                                },
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: 'Enter the year'),
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return 'Your year cannot be empty';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (String value) {
+                                  year = value;
+                                },
+                              ),
+                              SizedBox(height: 20),
+                              RaisedButton(
+                                child: Text('Submit'),
+                                onPressed: () {
+                                  trySubmit();
+                                },
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           );
