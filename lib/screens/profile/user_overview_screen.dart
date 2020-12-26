@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fbla_app/screens/profile/profile_edit.dart';
 import 'package:fbla_app/widgets/profile/achievement_item.dart';
 import 'package:fbla_app/widgets/profile/class_item.dart';
 import 'package:fbla_app/widgets/profile/experience_item.dart';
@@ -8,33 +9,52 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserOverview extends StatelessWidget {
+  void selectEditor(BuildContext context, String uid) {
+    Navigator.of(context)
+        .pushNamed(
+      ProfileEdit.routeName,
+      arguments: uid,
+    )
+        .then((result) {
+      if (result != null) {}
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('My Profile'),
-      ),
-      body: FutureBuilder(
-        future: FirebaseAuth.instance.currentUser(),
-        builder: (ctx, futureSnapshot) {
-          if (futureSnapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return StreamBuilder(
-            stream: Firestore.instance
-                .collection('users')
-                .document(futureSnapshot.data.uid)
-                .snapshots(),
-            builder: (ctx, userSnapshot) {
-              if (userSnapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              final userDocs = userSnapshot.data;
-              return SingleChildScrollView(
+    return FutureBuilder(
+      future: FirebaseAuth.instance.currentUser(),
+      builder: (ctx, futureSnapshot) {
+        if (futureSnapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return StreamBuilder(
+          stream: Firestore.instance
+              .collection('users')
+              .document(futureSnapshot.data.uid)
+              .snapshots(),
+          builder: (ctx, userSnapshot) {
+            if (userSnapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            final userDocs = userSnapshot.data;
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('My Profile'),
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      selectEditor(context, futureSnapshot.data.uid);
+                    },
+                  ),
+                ],
+              ),
+              body: SingleChildScrollView(
                 child: Column(
                   children: [
                     Container(
@@ -201,11 +221,11 @@ class UserOverview extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
-            },
-          );
-        },
-      ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
