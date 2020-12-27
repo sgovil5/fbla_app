@@ -1,28 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fbla_app/screens/profile/profile_detail_screen.dart';
+import 'package:fbla_app/screens/chat/chat_detail_screen.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePreview extends StatelessWidget {
-  final String userId;
-
-  ProfilePreview(this.userId);
-
-  void selectProfile(BuildContext context, DocumentSnapshot userDocument) {
+class ChatProfileItem extends StatelessWidget {
+  void selectChat(BuildContext context, String recieverUid) {
     Navigator.of(context)
         .pushNamed(
-      ProfileDetail.routeName,
-      arguments: userDocument,
+      ChatDetail.routeName,
+      arguments: recieverUid,
     )
         .then((result) {
       if (result != null) {}
     });
   }
 
+  final String recieverId;
+  ChatProfileItem(this.recieverId);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream:
-          Firestore.instance.collection('users').document(userId).snapshots(),
+      stream: Firestore.instance
+          .collection('users')
+          .document(recieverId)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -32,7 +32,7 @@ class ProfilePreview extends StatelessWidget {
         final user = snapshot.data;
         return InkWell(
           onTap: () {
-            selectProfile(context, user);
+            selectChat(context, recieverId);
           },
           child: Card(
             elevation: 0,

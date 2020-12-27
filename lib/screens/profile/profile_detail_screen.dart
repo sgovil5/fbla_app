@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fbla_app/screens/chat/chat_detail_screen.dart';
 import 'package:fbla_app/widgets/profile/achievement_item.dart';
 import 'package:fbla_app/widgets/profile/class_item.dart';
 import 'package:fbla_app/widgets/profile/experience_item.dart';
@@ -10,6 +11,17 @@ import 'package:flutter/material.dart';
 class ProfileDetail extends StatelessWidget {
   static const routeName = '/profile-detail';
 
+  void selectChat(BuildContext context, String recieverUid) {
+    Navigator.of(context)
+        .pushNamed(
+      ChatDetail.routeName,
+      arguments: recieverUid,
+    )
+        .then((result) {
+      if (result != null) {}
+    });
+  }
+
   void sendRequest(DocumentSnapshot recieveUser, String sendUser) {
     Firestore.instance
         .collection('users')
@@ -17,6 +29,44 @@ class ProfileDetail extends StatelessWidget {
         .updateData({
       'pending': FieldValue.arrayUnion([sendUser])
     });
+  }
+
+  Future<void> addChat(DocumentSnapshot recieveUser, String sendUser) async {
+    final recieverData = await Firestore.instance
+        .collection('users')
+        .document(recieveUser.documentID)
+        .collection('chat')
+        .where('receiver', isEqualTo: sendUser)
+        .getDocuments();
+    final recieverDocs = recieverData.documents;
+    if (recieverDocs.length == 0) {
+      Firestore.instance
+          .collection('users')
+          .document(sendUser)
+          .collection('chat')
+          .add({
+        'messages': [
+          {
+            'message': null,
+            'sender': null,
+          }
+        ],
+        'reciever': recieveUser.documentID,
+      });
+      Firestore.instance
+          .collection('users')
+          .document(recieveUser.documentID)
+          .collection('chat')
+          .add({
+        'messages': [
+          {
+            'message': null,
+            'sender': null,
+          }
+        ],
+        'reciever': sendUser,
+      });
+    }
   }
 
   @override
@@ -116,6 +166,34 @@ class ProfileDetail extends StatelessWidget {
                       }
                     },
                   ),
+                  IconButton(
+                    icon: Icon(Icons.message),
+                    onPressed: () {
+                      if (isMe) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('This is your profile'),
+                              content: Text('You cannot chat with yourself'),
+                              actions: [
+                                FlatButton(
+                                  child: Text("Okay"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        addChat(user, myUid).then((value) {
+                          selectChat(context, user.documentID);
+                        });
+                      }
+                    },
+                  )
                 ],
               ),
               body: SingleChildScrollView(
@@ -153,7 +231,8 @@ class ProfileDetail extends StatelessWidget {
                                   ),
                                   Container(
                                     alignment: Alignment.bottomCenter,
-                                    padding: EdgeInsets.all(15),
+                                    padding: EdgeInsets.only(top: 15),
+                                    height: 50,
                                     child: Text(
                                       userDocs['school'],
                                       textAlign: TextAlign.center,

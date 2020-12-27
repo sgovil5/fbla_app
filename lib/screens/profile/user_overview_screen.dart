@@ -88,6 +88,7 @@ class UserOverview extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
+                                    height: 50,
                                     alignment: Alignment.center,
                                     padding: EdgeInsets.only(top: 15),
                                     child: Text(
