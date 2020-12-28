@@ -38,14 +38,127 @@ class _ProfileEditState extends State<ProfileEdit> {
           return SingleChildScrollView(
             child: Column(
               children: [
+                Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(left: 15),
+                      child: Text(
+                        "Edit your description",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        String description = userDocs['description'];
+                        final GlobalKey<FormState> _formKey =
+                            GlobalKey<FormState>();
+                        void trySubmit() async {
+                          final isValid = _formKey.currentState.validate();
+                          FocusScope.of(context).unfocus();
+                          if (isValid) {
+                            _formKey.currentState.save();
+                            try {
+                              await Firestore.instance
+                                  .collection('users')
+                                  .document(userId)
+                                  .updateData({
+                                'description': description,
+                              }).then(
+                                (value) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                            'Your description was submitted'),
+                                        content: Text(
+                                            'It will now show up on your profile'),
+                                        actions: [
+                                          FlatButton(
+                                            child: Text('Okay'),
+                                            onPressed: () {
+                                              _formKey.currentState.reset();
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
+                                            },
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            } on PlatformException catch (e) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('There was an error'),
+                                    content: Text(e.message),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text('Okay'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          }
+                        }
+
+                        showBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText: 'Enter the description',
+                                    ),
+                                    validator: (String value) {
+                                      if (value.isEmpty) {
+                                        return 'Your description cannot be empty';
+                                      } else if (value.length > 150) {
+                                        return 'Your description must be less than 150 characters';
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (String value) {
+                                      description = value;
+                                    },
+                                  ),
+                                  SizedBox(height: 20),
+                                  RaisedButton(
+                                    child: Text('Submit'),
+                                    onPressed: () {
+                                      trySubmit();
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
                 Container(
-                  height: 30,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(30),
+                  height: 50,
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.all(15),
                   child: Text(
-                    "Edit your Profile",
-                    style: TextStyle(fontSize: 30),
-                    textAlign: TextAlign.center,
+                    userDocs['description'],
+                    style: TextStyle(fontSize: 15),
                   ),
                 ),
                 Container(
