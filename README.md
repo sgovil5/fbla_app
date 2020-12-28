@@ -1,10 +1,11 @@
 # Resudent
 
-An Application created for _Mobile Application Development_, an FBLA Competitive Event. 
+An Application created for _Mobile Application Development_, an FBLA Competitive Event. Its purpose is to connect students with other students, teachers, and companies. 
+
 
 # Features
 - [Login](#Login)
-- [About Me](#About-Me)
+- [Your Profile](#Your-Profile)
 - [Edit Profile](#Edit-Profile)
 - [Friends](#Friends)
 - [Search](#Search)
@@ -18,13 +19,13 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 - User has the ability to create an account using the Sign Up button. 
     * Requires Email, School, Username, and Password.
     * Alternatively, the user may login using Facebook.
-## About Me
+## Your Profile
 - Displays basic profile information. 
     * Name, Location, School, Profile Picture (can be uploaded from device).
 - Displays academic and extracurricular information.
     * Courses, Test Scores, Topics of Interest, Awards, Volunteer and Work Experience.
 ## Edit Profile
-- Allows you to edit all categories from [About Me](#About-Me).
+- Allows user to edit all categories from [About Me](#About-Me).
     * Add and remove Courses, Test Scores, etc.
 ## Search
 - Search for users using categories. 
@@ -38,7 +39,7 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 > add info on chat later o_O.
 
 # App Specifications
-This app was made using Flutter, and utilizes Google's Firebase as a backend
+This app was made using Flutter, and utilizes Google's Firebase as a backend.
 - Authorization (the sign-in process), and all other app data is stored and accessed using Firebase.
 - As the app was made using Flutter, there is native support for iOS and Android.
 
@@ -47,8 +48,9 @@ This app was made using Flutter, and utilizes Google's Firebase as a backend
 ## Navigation Bar (INCOMPLETE)
 - My Profile: takes user to the my profile page. 
 - Friends: takes user to friends page, where they can accept/decline friend requests and navigate to friend profiles.
+- Chat: 
 - Search: allows user to search by name, school, or interests.
-- Other: takes user to a page where they can report a bug, ______, ______
+- Other: takes user to a page where they can report a bug or logout.
 
 ## Login
 - Login: allows user to login with correct validation.
