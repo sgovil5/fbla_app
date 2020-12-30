@@ -4,7 +4,7 @@
 </p>
 
 ## FBLA Mobile App Development 2020-2021
-## Marvin Ridge High Schoo;
+## Marvin Ridge High School
 ## Team Members: Shitij Govil and Vibhu Gomatam
 
 An Application created for _Mobile Application Development_, an FBLA Competitive Event. Its purpose is to connect students with others, including but not limited to students, teachers, and organizations.
