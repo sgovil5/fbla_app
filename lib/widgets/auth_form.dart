@@ -131,7 +131,7 @@ class _AuthFormState extends State<AuthForm> {
                     TextFormField(
                       key: ValueKey('description'),
                       validator: (value) {
-                        if (value.isEmpty || value.length > 3) {
+                        if (value.isEmpty || value.length > 150) {
                           return 'Description must be between 1 and 150 characters';
                         }
                         return null;

@@ -36,37 +36,68 @@ class ProfileDetail extends StatelessWidget {
         .collection('users')
         .document(recieveUser.documentID)
         .collection('chat')
-        .where('receiver', isEqualTo: sendUser)
-        .getDocuments();
-    final recieverDocs = recieverData.documents;
-    if (recieverDocs.length == 0) {
-      Firestore.instance
-          .collection('users')
-          .document(sendUser)
-          .collection('chat')
-          .add({
-        'messages': [
-          {
-            'message': null,
-            'sender': null,
-          }
-        ],
-        'reciever': recieveUser.documentID,
-      });
-      Firestore.instance
-          .collection('users')
-          .document(recieveUser.documentID)
-          .collection('chat')
-          .add({
-        'messages': [
-          {
-            'message': null,
-            'sender': null,
-          }
-        ],
-        'reciever': sendUser,
-      });
-    }
+        .where('reciever', isEqualTo: sendUser)
+        .getDocuments()
+        .then((value) {
+      final recieverDocs = value.documents;
+      print(recieverDocs);
+      if (recieverDocs.length == 0) {
+        Firestore.instance
+            .collection('users')
+            .document(sendUser)
+            .collection('chat')
+            .add({
+          'messages': [
+            {
+              'message': null,
+              'sender': null,
+            }
+          ],
+          'reciever': recieveUser.documentID,
+        });
+        Firestore.instance
+            .collection('users')
+            .document(recieveUser.documentID)
+            .collection('chat')
+            .add({
+          'messages': [
+            {
+              'message': null,
+              'sender': null,
+            }
+          ],
+          'reciever': sendUser,
+        });
+      }
+      if (recieverDocs.length == 0) {
+        Firestore.instance
+            .collection('users')
+            .document(sendUser)
+            .collection('chat')
+            .add({
+          'messages': [
+            {
+              'message': null,
+              'sender': null,
+            }
+          ],
+          'reciever': recieveUser.documentID,
+        });
+        Firestore.instance
+            .collection('users')
+            .document(recieveUser.documentID)
+            .collection('chat')
+            .add({
+          'messages': [
+            {
+              'message': null,
+              'sender': null,
+            }
+          ],
+          'reciever': sendUser,
+        });
+      }
+    });
   }
 
   @override
