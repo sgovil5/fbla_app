@@ -72,7 +72,7 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 - Search: allows user to search by name, school, or interests.
 - Other: takes user to a page where they can report a bug or logout.
 
-# Technical Details
+# Technical Specifications
 - Made with the Flutter plugin for the Dart Language.
 - Google's Firebase used for Database, Data Storage, and User Authentication.
 - Native support for both iOS and Android.
@@ -83,6 +83,6 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 - [Firebase Storage](https://pub.dev/packages/firebase_storage) - By firebase.google.com
 - [Image Picker](https://pub.dev/packages/image_picker) - By flutter.dev
 
-# License
+## License
 [MIT License](https://github.com/horsefeedapples/fbla_app/blob/master/LICENSE) 
 
