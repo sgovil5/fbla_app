@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fbla_app/widgets/pickers/user_image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -9,6 +13,7 @@ class ProfileEdit extends StatefulWidget {
 }
 
 class _ProfileEditState extends State<ProfileEdit> {
+  var _userImageFile;
   void deleteItem(DocumentSnapshot userDocs, String category, int index) {
     Firestore.instance
         .collection('users')
@@ -16,6 +21,10 @@ class _ProfileEditState extends State<ProfileEdit> {
         .updateData({
       category: FieldValue.arrayRemove([userDocs[category][index]])
     });
+  }
+
+  void _pickedImage(File image) {
+    _userImageFile = image;
   }
 
   @override
@@ -38,6 +47,334 @@ class _ProfileEditState extends State<ProfileEdit> {
           return SingleChildScrollView(
             child: Column(
               children: [
+                Container(
+                  height: 40,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text('Edit your profile picture'),
+                ),
+                UserImagePicker(_pickedImage),
+                RaisedButton(
+                  elevation: 3,
+                  color: Colors.grey,
+                  child: Text('Submit Image'),
+                  onPressed: () {
+                    void trySubmit() async {
+                      try {
+                        final ref = FirebaseStorage.instance
+                            .ref()
+                            .child('user_image')
+                            .child(userId + 'jpg');
+
+                        await ref.putFile(_userImageFile).onComplete;
+                        //URL!!!!!!!!!!!!!
+                        final url = await ref.getDownloadURL();
+                        await Firestore.instance
+                            .collection('users')
+                            .document(userId)
+                            .updateData({
+                          'image_url': url,
+                        }).then((value) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('Your image was submitted'),
+                                content:
+                                    Text('It will now show up on your profile'),
+                                actions: [
+                                  FlatButton(
+                                    child: Text('Okay'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        });
+                      } on PlatformException catch (e) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('There was an error'),
+                              content: Text(e.message),
+                              actions: [
+                                FlatButton(
+                                  child: Text('Okay'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    }
+
+                    if (_userImageFile != null) {
+                      trySubmit();
+                    } else {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Choose an image"),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+                  },
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(left: 15),
+                      child: Text(
+                        "Edit your username",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        String username = userDocs['username'];
+                        final GlobalKey<FormState> _formKey =
+                            GlobalKey<FormState>();
+                        void trySubmit() async {
+                          final isValid = _formKey.currentState.validate();
+                          FocusScope.of(context).unfocus();
+                          if (isValid) {
+                            _formKey.currentState.save();
+                            try {
+                              await Firestore.instance
+                                  .collection('users')
+                                  .document(userId)
+                                  .updateData({
+                                'username': username,
+                              }).then(
+                                (value) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title:
+                                            Text('Your username was submitted'),
+                                        content: Text(
+                                            'It will now show up on your profile'),
+                                        actions: [
+                                          FlatButton(
+                                            child: Text('Okay'),
+                                            onPressed: () {
+                                              _formKey.currentState.reset();
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
+                                            },
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            } on PlatformException catch (e) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('There was an error'),
+                                    content: Text(e.message),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text('Okay'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          }
+                        }
+
+                        showBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText: 'Enter the username',
+                                    ),
+                                    validator: (String value) {
+                                      if (value.isEmpty) {
+                                        return 'Your username cannot be empty';
+                                      } else if (value.length > 30) {
+                                        return 'Your username must be less than 30 characters';
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (String value) {
+                                      username = value;
+                                    },
+                                  ),
+                                  SizedBox(height: 20),
+                                  RaisedButton(
+                                    child: Text('Submit'),
+                                    onPressed: () {
+                                      trySubmit();
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 30,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text(
+                    userDocs['username'],
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(left: 15),
+                      child: Text(
+                        "Edit your school",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        String school = userDocs['school'];
+                        final GlobalKey<FormState> _formKey =
+                            GlobalKey<FormState>();
+                        void trySubmit() async {
+                          final isValid = _formKey.currentState.validate();
+                          FocusScope.of(context).unfocus();
+                          if (isValid) {
+                            _formKey.currentState.save();
+                            try {
+                              await Firestore.instance
+                                  .collection('users')
+                                  .document(userId)
+                                  .updateData({
+                                'school': school,
+                              }).then(
+                                (value) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title:
+                                            Text('Your school was submitted'),
+                                        content: Text(
+                                            'It will now show up on your profile'),
+                                        actions: [
+                                          FlatButton(
+                                            child: Text('Okay'),
+                                            onPressed: () {
+                                              _formKey.currentState.reset();
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
+                                            },
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            } on PlatformException catch (e) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('There was an error'),
+                                    content: Text(e.message),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text('Okay'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          }
+                        }
+
+                        showBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText: 'Enter the school',
+                                    ),
+                                    validator: (String value) {
+                                      if (value.isEmpty) {
+                                        return 'Your school name cannot be empty';
+                                      } else if (value.length > 50) {
+                                        return 'Your school name must be less than 50 characters';
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (String value) {
+                                      school = value;
+                                    },
+                                  ),
+                                  SizedBox(height: 20),
+                                  RaisedButton(
+                                    child: Text('Submit'),
+                                    onPressed: () {
+                                      trySubmit();
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 30,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text(
+                    userDocs['school'],
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
                 Row(
                   children: [
                     Container(

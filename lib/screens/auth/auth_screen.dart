@@ -1,9 +1,13 @@
+import 'package:fbla_app/blocs/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/auth_form.dart';
 
@@ -106,11 +110,23 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var authBloc = Provider.of<AuthBloc>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: AuthForm(
-        _submitAuthForm,
-        _isLoading,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AuthForm(
+            _submitAuthForm,
+            _isLoading,
+          ),
+          SignInButton(
+            Buttons.Facebook,
+            onPressed: () {
+              authBloc.loginFacebook(context);
+            },
+          )
+        ],
       ),
     );
   }

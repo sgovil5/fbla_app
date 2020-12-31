@@ -67,8 +67,10 @@ class UserOverview extends StatelessWidget {
                             height: 100,
                             child: CircleAvatar(
                               radius: 75,
-                              backgroundImage:
-                                  NetworkImage(userDocs['image_url']),
+                              backgroundImage: userDocs['image_url'] == null
+                                  ? NetworkImage(
+                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png')
+                                  : NetworkImage(userDocs['image_url']),
                             ),
                           ),
                           Expanded(
@@ -81,7 +83,9 @@ class UserOverview extends StatelessWidget {
                                   Container(
                                     alignment: Alignment.topCenter,
                                     child: Text(
-                                      userDocs['username'],
+                                      userDocs['username'] == ''
+                                          ? 'No username'
+                                          : userDocs['username'],
                                       style: TextStyle(
                                         fontSize: 30,
                                       ),
@@ -92,7 +96,9 @@ class UserOverview extends StatelessWidget {
                                     alignment: Alignment.center,
                                     padding: EdgeInsets.only(top: 15),
                                     child: Text(
-                                      userDocs['school'],
+                                      userDocs['school'] == ''
+                                          ? 'No School'
+                                          : userDocs['school'],
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 15,
