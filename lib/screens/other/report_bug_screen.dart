@@ -26,7 +26,7 @@ class _ReportBugState extends State<ReportBug> {
               return AlertDialog(
                 title: Text('Your report has been submitted'),
                 content: Text(
-                  'We are sorry for the inconvenience. This bug will be fixed quickly',
+                  'We are sorry for the inconvenience. This bug will be fixed quickly.',
                 ),
                 actions: [
                   FlatButton(
@@ -46,7 +46,7 @@ class _ReportBugState extends State<ReportBug> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('There was an error'),
+              title: Text('There was an error submitting the information'),
               content: Text(e.message),
               actions: [
                 FlatButton(
@@ -70,7 +70,7 @@ class _ReportBugState extends State<ReportBug> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Report a Bug'),
+        title: Text('Report a Bug or Suggest a Change'),
       ),
       body: Container(
         margin: EdgeInsets.all(25),
@@ -80,7 +80,7 @@ class _ReportBugState extends State<ReportBug> {
             children: [
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Enter the Bug',
+                  labelText: 'Enter the Bug or SUggestion',
                 ),
                 validator: (String value) {
                   if (value.isEmpty) {

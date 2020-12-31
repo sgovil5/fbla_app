@@ -156,7 +156,25 @@ class _ProfileEditState extends State<ProfileEdit> {
                                   .collection('users')
                                   .document(userId)
                                   .updateData({
-                                'username': username,
+                                'username': username.trim(),
+                              }).then((value) async {
+                                List<String> setSearchParam(String inputTitle) {
+                                  List<String> searchList = List();
+                                  String temp = "";
+                                  for (int i = 0; i < inputTitle.length; i++) {
+                                    temp = temp + inputTitle[i];
+                                    searchList.add(temp);
+                                  }
+                                  return searchList;
+                                }
+
+                                await Firestore.instance
+                                    .collection('users')
+                                    .document(userId)
+                                    .updateData({
+                                  'searchKeywords': setSearchParam(
+                                      username.trim().toLowerCase())
+                                });
                               }).then(
                                 (value) {
                                   showDialog(

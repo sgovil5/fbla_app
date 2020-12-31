@@ -48,7 +48,8 @@ class OtherOverViewScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 140),
-          buildSection(context, 'Report a Bug', selectReportBug),
+          buildSection(
+              context, 'Report a Bug or Suggest a Change', selectReportBug),
           buildSection(context, 'Logout', logout),
           Divider(
             thickness: 2,
