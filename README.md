@@ -25,7 +25,7 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
     * Alternatively, the user may sign up using Facebook.
 - User has the ability to log in to an existing account with the Login button.
     * Requires Email and Password.
-    * Alternatively, the user may log in with Facebook.
+    * Alternatively, the user may log in with their Facebook account.
 - User Authentication is handled by the Firebase Authentication API and user data is stored in Cloud Firestore.
 ## Your Profile
 - Displays basic profile information. 
@@ -34,7 +34,7 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 - Displays academic and extracurricular information.
     * Classes, Test Scores, Topics of Interest, Awards, Volunteer, and Work Experience.
     * Stored in Cloud Firestore.
-- User can edit the 'Description', 'Classes', 'Test Scores', 'Interests', 'Achievements', and 'Experiences' categories.
+- User can edit their Username, Profile Picture, and School as well as the 'Description', 'Classes', 'Test Scores', 'Interests', 'Achievements', and 'Experiences' categories.
     * An edit profile button at the top-right navigates user to the edit profile page.
     * For each category, a user can add a field or remove a field.
         * A '+' icon for each category allows users to add a field to a specific category.
@@ -77,12 +77,26 @@ An Application created for _Mobile Application Development_, an FBLA Competitive
 - Google's Firebase used for Database, Data Storage, and User Authentication.
 - Native support for both iOS and Android.
 
+## Analytics
+- Analytics for various categories are available. Categories include:
+    * Number of Facebook and regular users
+    * Location, Demographics, Devices, and Interests of users
+    * User retention and engagement
+    * Document Read and Writes
+   
 ## Packages Used
 - [Cloud Firestore](https://pub.dev/packages/cloud_firestore) - By firebase.google.com
 - [Firebase Auth](https://pub.dev/packages/firebase_auth) - By firebase.google.com
 - [Firebase Storage](https://pub.dev/packages/firebase_storage) - By firebase.google.com
 - [Image Picker](https://pub.dev/packages/image_picker) - By flutter.dev
+- [Flutter Login Facebook](https://pub.dev/packages/flutter_login_facebook) - By innim.ru
+- [Provider](https://pub.dev/packages/provider) - By dash-overflow.net
+- [Flutter SignIn Button](https://pub.dev/packages/flutter_signin_button) - By Liu Zhiheng
 
-## License
+# Planning
+- [Programming Timeline](https://timelines.gitkraken.com/timeline/2584802811ab43aa848879d1b361c815?range=0_22)
+- [App Design](https://www.figma.com/file/Hcma6qqDZZJ8mWkQaJQloB/FBLA-App)
+
+# License
 [MIT License](https://github.com/horsefeedapples/fbla_app/blob/master/LICENSE) 
 
