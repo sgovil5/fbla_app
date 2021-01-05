@@ -18,6 +18,5 @@ These are the instructions to run the files on GitHub on a local device.
   * Paste the URL and select the desired directory location for the project. Then click the clone button
   * If prompted "Would you like to create an Android Studio project for the sources you have check out," select "No."
   * When prompted to open the project, choose the existing project and click OK
-  * When the project is open in Android Studio, click the "Get Dependencies" button to install all packages.
-   * Or type `flutter pub get` into the command prompt
+  * When the project is open in Android Studio, type `flutter pub get` into the command prompt to get all dependecies
 - The app is ready to run
