@@ -32,22 +32,30 @@ class AuthBloc {
         // User Credential to Sign in with Firebase
         final result = await authService.signInWithCredential(credential);
         String userId = await currentUser.first.then((value) => value.uid);
-        await Firestore.instance.collection('users').document(userId).setData({
-          'username': '',
-          'email': '',
-          'image_url': null,
-          'password': '',
-          'school': '',
-          'description': '',
-          'searchKeywords': [], //setSearchParam(username.trim().toLowerCase()),
-          'achievements': [],
-          'classes': [],
-          'experiences': [],
-          'interests': [],
-          'test_scores': [],
-          'friends': [],
-          'pending': [],
-        });
+        final snapshot =
+            await Firestore.instance.collection('users').document(userId).get();
+        if (snapshot == null || !snapshot.exists) {
+          await Firestore.instance
+              .collection('users')
+              .document(userId)
+              .setData({
+            'username': '',
+            'email': '',
+            'image_url': null,
+            'password': '',
+            'school': '',
+            'description': '',
+            'searchKeywords':
+                [], //setSearchParam(username.trim().toLowerCase()),
+            'achievements': [],
+            'classes': [],
+            'experiences': [],
+            'interests': [],
+            'test_scores': [],
+            'friends': [],
+            'pending': [],
+          });
+        }
         print('${result.user.displayName} is logged in');
         break;
       case FacebookLoginStatus.cancel:

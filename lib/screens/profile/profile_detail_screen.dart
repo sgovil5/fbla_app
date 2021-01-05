@@ -69,34 +69,6 @@ class ProfileDetail extends StatelessWidget {
           'reciever': sendUser,
         });
       }
-      if (recieverDocs.length == 0) {
-        Firestore.instance
-            .collection('users')
-            .document(sendUser)
-            .collection('chat')
-            .add({
-          'messages': [
-            {
-              'message': null,
-              'sender': null,
-            }
-          ],
-          'reciever': recieveUser.documentID,
-        });
-        Firestore.instance
-            .collection('users')
-            .document(recieveUser.documentID)
-            .collection('chat')
-            .add({
-          'messages': [
-            {
-              'message': null,
-              'sender': null,
-            }
-          ],
-          'reciever': sendUser,
-        });
-      }
     });
   }
 

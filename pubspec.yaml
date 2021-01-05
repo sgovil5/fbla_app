@@ -35,8 +35,13 @@ dependencies:
   flutter_login_facebook: ^0.4.2+1
   provider: ^4.3.2+3
   flutter_signin_button: ^1.1.0
+  flutter_launcher_icons: ^0.8.1
 
-  
+flutter_icons:
+  image_path: lib\assets\icons\Logo_Circular.png
+  android: true
+  ios: true
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
