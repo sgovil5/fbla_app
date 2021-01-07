@@ -5,7 +5,7 @@ class AchievementItem extends StatelessWidget {
   final String year;
   AchievementItem(this.achievement, this.year);
   // Constant variables created, Constructor.
-  // Parent class for all achievements
+  // Template for all achievements.
 
   @override
   Widget build(BuildContext context) {
