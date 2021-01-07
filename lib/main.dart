@@ -9,6 +9,9 @@ import 'package:provider/provider.dart';
 import 'screens/other/report_bug_screen.dart';
 import 'screens/auth/auth_screen.dart';
 import 'screens/bottom_nav_bar.dart';
+// ^^ imports, some from dart, some from flutter, some from firebase...
+// All documentation should use this comment. 
+// This is the main file, contains running code for the app.
 
 void main() {
   runApp(MyApp());
@@ -19,6 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider(
       create: (context) => AuthBloc(),
+      // creates auth 
+      
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'FBLA App',
@@ -26,6 +31,13 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           scaffoldBackgroundColor: Colors.white,
         ),
+        // Basic color theme, should be changed to: 
+        // Lavender Web: E5E6FD (lightest, off-white)
+        // Light Steel Blue: BCD2EE
+        // Dark Cornflower Blue: 334195
+        // Thistle: C8B5E1 (medium purple)
+        // Amethyst: 895EC2 (dark purple)
+        
         home: StreamBuilder(
           stream: FirebaseAuth.instance.onAuthStateChanged,
           builder: (ctx, userSnapshot) {
@@ -33,6 +45,7 @@ class MyApp extends StatelessWidget {
               return BottomNavBar();
             }
             return AuthScreen();
+            // Authorization screen loaded in.
           },
         ),
         initialRoute: '/',
