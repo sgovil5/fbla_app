@@ -21,6 +21,7 @@ class AuthBloc {
         FacebookPermission.email,
       ],
     );
+    // Facebook Login Integration.
 
     switch (res.status) {
       case FacebookLoginStatus.success:
@@ -55,7 +56,7 @@ class AuthBloc {
             'friends': [],
             'pending': [],
           });
-        }
+        } // Creation of new user.
         print('${result.user.displayName} is logged in');
         break;
       case FacebookLoginStatus.cancel:
@@ -70,7 +71,7 @@ class AuthBloc {
               )
             ],
           ),
-        );
+        ); // Went to Facebook Login page, and then came back without logging in.
         break;
       case FacebookLoginStatus.error:
         showDialog(
@@ -84,7 +85,7 @@ class AuthBloc {
               )
             ],
           ),
-        );
+        ); // Mostly for debugging purposes. 
         break;
     }
   }
