@@ -16,7 +16,7 @@ class ProfilePreview extends StatelessWidget {
         .then((result) {
       if (result != null) {}
     });
-  }
+  } // Builds a profile preview for user as specified in userID. The preview contains a picture, name, and school.
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class ProfilePreview extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(),
-          );
+          ); // Loading, user data being retrieved.
         }
         final user = snapshot.data;
         return InkWell(
@@ -47,7 +47,7 @@ class ProfilePreview extends StatelessWidget {
                         radius: 50,
                         backgroundImage: NetworkImage(user['image_url']),
                       ),
-                    ),
+                    ), // Positioning and placement of user profile picture.
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.all(20),
@@ -58,7 +58,7 @@ class ProfilePreview extends StatelessWidget {
                             Container(
                               alignment: Alignment.topCenter,
                               child: Text(
-                                user['username'],
+                                user['username'], // Displays username under profile picture.
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 30,
@@ -70,7 +70,7 @@ class ProfilePreview extends StatelessWidget {
                               alignment: Alignment.bottomCenter,
                               padding: EdgeInsets.all(15),
                               child: Text(
-                                user['school'],
+                                user['school'], // Displays school of user
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 15,
