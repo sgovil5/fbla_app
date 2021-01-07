@@ -98,6 +98,7 @@ Resudent is a social platform with a goal to connect students with other individ
 
 # Planning
 - [Sprint Planning](https://timelines.gitkraken.com/timeline/2584802811ab43aa848879d1b361c815?range=0_22)
+- [Sprint Storyboard](https://app.gitkraken.com/glo/board/X-PBLLw5GgAS446I)
 - [App Design](https://www.figma.com/file/Hcma6qqDZZJ8mWkQaJQloB/FBLA-App)
 
 # License
