@@ -30,7 +30,7 @@ Resudent is a social platform with a goal to connect students with other individ
 - Displays basic profile information. 
     * Name, School, Description, and a Profile Picture uploaded from the device.
     * Data stored in Cloud Firestore.
-        * Image stored in Firebase Storage
+        * Image stored in Firebase Storage.
 - Displays academic and extracurricular information.
     * Classes, Test Scores, Topics of Interest, Achievements, Volunteer, and Work Experience.
     * Stored in Cloud Firestore.
@@ -57,15 +57,15 @@ Resudent is a social platform with a goal to connect students with other individ
 - All data pertaining to friends and pending requests is stored in Cloud Firestore.
 ## Chat
 - Users can create chats with anyone by navigating to the desired user's page and clicking the chat icon.
-    * Clicking the icon will either create a new chat if one doesn't exist, or navigate to an already existing chat
+    * Clicking the icon will either create a new chat if one doesn't exist, or navigate to an already existing chat.
 - Users can see all their chats from a separate page that displays a clickable preview of the other users the current user is chatting with.
-    * Clicking on this preview will open up the existing chat
+    * Clicking on this preview will open up the existing chat.
 - Users can send messages back-and-forth that are stored indefinitely. 
-- All data pertaining to chats is stored in Cloud Firestore
+- All data pertaining to chats is stored in Cloud Firestore.
 ## Report Bug and Suggestions
 - Allows user to report any problems, bugs, or suggestions.
     * User may input contact information.
-- Reports sent to Cloud Firestore
+- Reports sent to Cloud Firestore.
 ## Navigation Bar
 - My Profile: takes user to the my profile page. 
 - Friends: takes user to friends page, where they can accept/decline friend requests and navigate to friend profiles.
@@ -76,16 +76,16 @@ Resudent is a social platform with a goal to connect students with other individ
 # Technical Specifications
 - Made with the Flutter plugin for the Dart Language.
 - Google's Firebase used for Database, Data Storage(for Image), and User Authentication.
-    * Connected to app through RESTful API
-    * Create, Read, Update, and Delete operations used
+    * Connected to app through RESTful API.
+    * Create, Read, Update, and Delete operations used.
 - Native support for both iOS and Android.
 
 ## Analytics
 - Analytics for various categories are available. Categories include:
-    * Number of Facebook and regular users
-    * Location, Demographics, Devices, and Interests of users
-    * User retention and engagement
-    * Document Read and Writes
+    * Number of Facebook and regular users.
+    * Location, Demographics, Devices, and Interests of users.
+    * User retention and engagement.
+    * Document Read and Writes.
    
 ## Packages Used
 - [Cloud Firestore](https://pub.dev/packages/cloud_firestore) - By firebase.google.com
