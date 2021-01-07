@@ -21,7 +21,7 @@ class ExperienceItem extends StatelessWidget {
         Container(
           margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Text(
-            year, // Year text
+            year, // Year text.
             style: TextStyle(fontSize: 10),
           ),
         ),
