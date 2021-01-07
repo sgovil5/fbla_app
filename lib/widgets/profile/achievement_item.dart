@@ -5,13 +5,15 @@ class AchievementItem extends StatelessWidget {
   final String year;
   AchievementItem(this.achievement, this.year);
   // Constant variables created, Constructor.
-  // Template for all achievements.
+  // Template for all achievements in profile page
 
   @override
   Widget build(BuildContext context) {
+    //Creates a Row of Containers with Center Alignment
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        //Creates a Container to display the text of the achievement and sets fontsize along with a margin of 15 pixels.
         Container(
           margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Text(
@@ -19,6 +21,7 @@ class AchievementItem extends StatelessWidget {
             style: TextStyle(fontSize: 10),
           ),
         ),
+        //Creates a Container to display the year of the achievement and sets fontsize along with a margin of 15 pixels.
         Container(
           margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Text(
@@ -29,5 +32,4 @@ class AchievementItem extends StatelessWidget {
       ],
     );
   }
-  // Centering and font size are set. 
 }
