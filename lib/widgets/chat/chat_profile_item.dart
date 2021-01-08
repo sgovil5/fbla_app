@@ -66,18 +66,6 @@ class ChatProfileItem extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Container(
-                              alignment: Alignment.bottomCenter,
-                              padding: EdgeInsets.all(15),
-                              child: Text(
-                                user['school'],
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),

@@ -1,7 +1,5 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fbla_app/services/facebook_auth_service.dart';
+import '../services/facebook_auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
@@ -13,17 +11,16 @@ class AuthBloc {
   Stream<FirebaseUser> get currentUser => authService.currentUser;
 
   loginFacebook(BuildContext context) async {
-    print('Starting Facebook Login');
-
     final res = await fb.logIn(
+      //Gives permissions to the app from Facebook
       permissions: [
         FacebookPermission.publicProfile,
         FacebookPermission.email,
       ],
     );
-    // Facebook Login Integration.
 
     switch (res.status) {
+      //In case of a success logging in with Facebook
       case FacebookLoginStatus.success:
         //Get Token
         final FacebookAccessToken fbToken = res.accessToken;
@@ -32,11 +29,15 @@ class AuthBloc {
             FacebookAuthProvider.getCredential(accessToken: fbToken.token);
         // User Credential to Sign in with Firebase
         final result = await authService.signInWithCredential(credential);
+        //Get the current ID of user
         String userId = await currentUser.first.then((value) => value.uid);
+        //Get data of the current user
         final snapshot =
             await Firestore.instance.collection('users').document(userId).get();
         if (snapshot == null || !snapshot.exists) {
-          await Firestore.instance
+          //Create a new user if one doesn't exist with empty data
+          await Firestore
+              .instance //Send data to Firebase in the user's document
               .collection('users')
               .document(userId)
               .setData({
@@ -46,8 +47,7 @@ class AuthBloc {
             'password': '',
             'school': '',
             'description': '',
-            'searchKeywords':
-                [], //setSearchParam(username.trim().toLowerCase()),
+            'searchKeywords': [],
             'achievements': [],
             'classes': [],
             'experiences': [],
@@ -56,36 +56,41 @@ class AuthBloc {
             'friends': [],
             'pending': [],
           });
-        } // Creation of new user.
-        print('${result.user.displayName} is logged in');
+        }
         break;
-      case FacebookLoginStatus.cancel:
+      case FacebookLoginStatus
+          .cancel: //In the case that the Facebook Login is cancelled
         showDialog(
+          // An alert will be shown that the login was cancelled
           context: context,
           child: AlertDialog(
             title: Text('The Facebook Login was cancelled'),
             actions: [
               FlatButton(
+                //User will have the option to close the alert by pressing the "okay" button
                 child: Text('Okay'),
                 onPressed: () => Navigator.pop(context),
               )
             ],
           ),
-        ); // Went to Facebook Login page, and then came back without logging in.
+        );
         break;
-      case FacebookLoginStatus.error:
+      case FacebookLoginStatus
+          .error: //In the case that there is an error during facebook login
         showDialog(
+          // An alert will be shown that the login had an error
           context: context,
           child: AlertDialog(
             title: Text('There was an error'),
             actions: [
               FlatButton(
                 child: Text('Okay'),
+                //User will have the option to close the alert by pressing the "okay" button
                 onPressed: () => Navigator.pop(context),
               )
             ],
           ),
-        ); // Mostly for debugging purposes. 
+        );
         break;
     }
   }
