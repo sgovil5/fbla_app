@@ -21,7 +21,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     OtherOverViewScreen(),
   ]; // List of pages for buttons to correspond to.
 
-  int _selectedPageIndex = 0;
+  int _selectedPageIndex = 0; // Starts at My Profile page.
 
   void _selectPage(int index) {
     setState(() {
@@ -30,7 +30,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   } // Changes state of app to selected screen.
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { // Builds navigation bar.
     return Scaffold(
       body: _pages[_selectedPageIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -38,8 +38,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         type: BottomNavigationBarType.shifting,
         unselectedItemColor: Colors.black,
         selectedItemColor: Colors.blueAccent,
-        backgroundColor: Colors.lightBlueAccent,
-        currentIndex: _selectedPageIndex,
+        backgroundColor: Colors.lightBlueAccent, // Chooses color theme.
+        currentIndex: _selectedPageIndex, // Sets public variable to selected index.
         selectedFontSize: 20,
         items: [
           BottomNavigationBarItem(
