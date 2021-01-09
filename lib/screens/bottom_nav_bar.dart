@@ -27,7 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {
       _selectedPageIndex = index;
     });
-  } // Changes state of app to selected screen.
+  } // Changes state of app to selected screen. 
 
   @override
   Widget build(BuildContext context) { // Builds navigation bar.
