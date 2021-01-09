@@ -23,7 +23,7 @@ class UserOverview extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { // Displays the My Profile Page.
     return FutureBuilder(
       future: FirebaseAuth.instance.currentUser(),
       builder: (ctx, futureSnapshot) {
@@ -46,7 +46,7 @@ class UserOverview extends StatelessWidget {
             final userDocs = userSnapshot.data;
             return Scaffold(
               appBar: AppBar(
-                title: Text('My Profile'),
+                title: Text('My Profile'), // Header
                 actions: [
                   IconButton(
                     icon: Icon(Icons.edit),
@@ -72,7 +72,7 @@ class UserOverview extends StatelessWidget {
                               backgroundImage: userDocs['image_url'] == null
                                   ? NetworkImage(
                                       'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png')
-                                  : NetworkImage(userDocs['image_url']),
+                                  : NetworkImage(userDocs['image_url']), // User Profile Picture or standard picture.
                             ),
                           ),
                           Expanded(
@@ -87,7 +87,7 @@ class UserOverview extends StatelessWidget {
                                     child: Text(
                                       userDocs['username'] == ''
                                           ? 'No username'
-                                          : userDocs['username'],
+                                          : userDocs['username'], // Displays username.
                                       style: TextStyle(
                                         fontSize: 30,
                                       ),
@@ -100,7 +100,7 @@ class UserOverview extends StatelessWidget {
                                     child: Text(
                                       userDocs['school'] == ''
                                           ? 'No School'
-                                          : userDocs['school'],
+                                          : userDocs['school'], // Displays School.
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 15,
@@ -116,12 +116,12 @@ class UserOverview extends StatelessWidget {
                     ),
                     Container(
                       padding: EdgeInsets.all(15),
-                      child: Text(userDocs['description']),
+                      child: Text(userDocs['description']), // Displays description.
                     ),
                     if (userDocs['classes'].length != 0)
                       Container(
                         child: Text(
-                          'This is a list of classes taken by ${userDocs['username']}',
+                          'This is a list of classes taken by ${userDocs['username']}', // Displays classes
                           style: TextStyle(fontSize: 15),
                         ),
                       ),
@@ -135,12 +135,12 @@ class UserOverview extends StatelessWidget {
                           return ClassItem(
                             userDocs['classes'][index]['class'],
                             userDocs['classes'][index]['grade'],
-                            userDocs['classes'][index]['year'],
+                            userDocs['classes'][index]['year'], // centered and spaced out properly.
                           );
                         },
                       ),
                     ),
-                    if (userDocs['test_scores'].length != 0)
+                    if (userDocs['test_scores'].length != 0) // Similarily for test scores
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -162,7 +162,7 @@ class UserOverview extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['interests'].length != 0)
+                    if (userDocs['interests'].length != 0) // Interests
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -183,7 +183,7 @@ class UserOverview extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['achievements'].length != 0)
+                    if (userDocs['achievements'].length != 0) // Achievements
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -205,7 +205,7 @@ class UserOverview extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['experiences'].length != 0)
+                    if (userDocs['experiences'].length != 0) // Experiences
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
