@@ -21,7 +21,7 @@ class SearchScreen extends StatelessWidget {
       SearchDelegate<String> searchType) {
     return InkWell(
       onTap: () {
-        showSearch(context: context, delegate: searchType);
+        showSearch(context: context, delegate: searchType); // Setup to search by Name, Interest, or School.
       },
       child: Container(
         width: double.infinity,
@@ -52,7 +52,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search for People'),
+        title: Text('Search for People'), // Search bar at top.
         actions: [
           IconButton(
             icon: Icon(Icons.search),
@@ -64,7 +64,7 @@ class SearchScreen extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: Icon(MyFlutterApp.graduation_cap),
+            icon: Icon(MyFlutterApp.graduation_cap), // Logo Integration.
             onPressed: () {
               selectUserOverview(context);
             },
@@ -76,7 +76,7 @@ class SearchScreen extends StatelessWidget {
           children: [
             buildCategory(context, 'Search by Name', NameSearch()),
             buildCategory(context, 'Search by Interest', InterestSearch()),
-            buildCategory(context, 'Search by School', SchoolSearch()),
+            buildCategory(context, 'Search by School', SchoolSearch()), // Three search categories.
           ],
         ),
       ),
@@ -115,7 +115,7 @@ class NameSearch extends SearchDelegate<String> {
     return StreamBuilder(
       stream: Firestore.instance
           .collection('users')
-          .where('searchKeywords', arrayContains: query.toLowerCase())
+          .where('searchKeywords', arrayContains: query.toLowerCase()) // Don't have to worry about capitalization.
           .snapshots(),
       builder: (ctx, userSnapshot) {
         if (userSnapshot.connectionState == ConnectionState.waiting) {
@@ -130,7 +130,7 @@ class NameSearch extends SearchDelegate<String> {
               margin: EdgeInsets.only(top: 20),
               height: 40,
               child: Text(
-                'These are a list of people matching the search "$query"',
+                'These are a list of people matching the search "$query"', // Displays results of search.
                 style: TextStyle(fontSize: 15),
               ),
             ),
@@ -157,7 +157,7 @@ class NameSearch extends SearchDelegate<String> {
     )
         .then((result) {
       if (result != null) {}
-    });
+    }); // When a user is clicked on, it navigates to their profile page.
   }
 
   @override
@@ -182,7 +182,7 @@ class NameSearch extends SearchDelegate<String> {
               leading: Icon(Icons.person),
               title: Text(userData[index]['username']),
               onTap: () {
-                selectProfile(context, userData[index]);
+                selectProfile(context, userData[index]); // Results function.
               },
             );
           },
@@ -247,7 +247,7 @@ class InterestSearch extends SearchDelegate<String> {
               itemCount: userData.length,
               itemBuilder: (ctx, index) {
                 return ProfilePreview(
-                  userData[index].documentID,
+                  userData[index].documentID, // Search by interest.
                 );
               },
             ),
@@ -340,7 +340,7 @@ class SchoolSearch extends SearchDelegate<String> {
   }
 
   @override
-  Widget buildResults(BuildContext context) {
+  Widget buildResults(BuildContext context) { // Search by school.
     return StreamBuilder(
       stream: Firestore.instance
           .collection('users')
@@ -410,7 +410,7 @@ class SchoolSearch extends SearchDelegate<String> {
                 margin: EdgeInsets.only(top: 20),
                 height: 40,
                 child: Text(
-                  'People who go to the school "$query"',
+                  'People who go to the school "$query"', // Displays results.
                   style: TextStyle(fontSize: 15),
                 ),
               ),
