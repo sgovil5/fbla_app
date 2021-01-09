@@ -23,7 +23,8 @@ class ProfileDetail extends StatelessWidget {
       if (result != null) {}
     });
   }
-
+  
+  // Function to navigate to the selected chat.
   void selectChat(BuildContext context, String recieverUid) {
     Navigator.of(context)
         .pushNamed(
@@ -34,7 +35,8 @@ class ProfileDetail extends StatelessWidget {
       if (result != null) {}
     });
   }
-
+  
+  // Function to send a friend request.
   void sendRequest(DocumentSnapshot recieveUser, String sendUser) {
     Firestore.instance
         .collection('users')
@@ -43,7 +45,8 @@ class ProfileDetail extends StatelessWidget {
       'pending': FieldValue.arrayUnion([sendUser])
     });
   }
-
+  
+  Function to start a chat with a new user.
   Future<void> addChat(DocumentSnapshot recieveUser, String sendUser) async {
     final recieverData = await Firestore.instance
         .collection('users')
@@ -86,7 +89,7 @@ class ProfileDetail extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { // viewing a profile screen.
     final DocumentSnapshot user = ModalRoute.of(context).settings.arguments;
     return FutureBuilder(
       future: FirebaseAuth.instance.currentUser(),
@@ -95,7 +98,7 @@ class ProfileDetail extends StatelessWidget {
           return Center(
             child: CircularProgressIndicator(),
           );
-        }
+        } // Loading.
         return StreamBuilder(
           stream: Firestore.instance
               .collection('users')
@@ -119,9 +122,9 @@ class ProfileDetail extends StatelessWidget {
                 title: Text(user['username']),
                 actions: [
                   IconButton(
-                    icon: Icon(Icons.person_add),
+                    icon: Icon(Icons.person_add), // Pressing add friend icon.
                     onPressed: () {
-                      if (isMe) {
+                      if (isMe) { // If user tries to friend themselves. 
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -140,7 +143,7 @@ class ProfileDetail extends StatelessWidget {
                             );
                           },
                         );
-                      } else if (!(user['friends'].contains(myUid))) {
+                      } else if (!(user['friends'].contains(myUid))) { // If user is not already friends with selected user.
                         sendRequest(user, myUid);
                         showDialog(
                           context: context,
@@ -160,7 +163,7 @@ class ProfileDetail extends StatelessWidget {
                             );
                           },
                         );
-                      } else {
+                      } else { // User is friends with selected user.
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -185,7 +188,7 @@ class ProfileDetail extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.message),
                     onPressed: () {
-                      if (isMe) {
+                      if (isMe) { // If user tries to chat with themselves.
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -211,7 +214,7 @@ class ProfileDetail extends StatelessWidget {
                     },
                   ),
                   IconButton(
-                    icon: Icon(MyFlutterApp.graduation_cap),
+                    icon: Icon(MyFlutterApp.graduation_cap), // Integration of logo.
                     onPressed: () {
                       selectUserOverview(context);
                     },
@@ -235,7 +238,7 @@ class ProfileDetail extends StatelessWidget {
                                   NetworkImage(userDocs['image_url']),
                             ),
                           ),
-                          Expanded(
+                          Expanded( // Displaying the in-depth profile page, also found on user's profile page.
                             child: Container(
                               padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                               child: Column(
