@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ProfileEdit extends StatefulWidget {
+class ProfileEdit extends StatefulWidget { // Stateful widget, with changing properties.
   static const routeName = '/edit-profile';
   @override
   _ProfileEditState createState() => _ProfileEditState();
@@ -21,11 +21,11 @@ class _ProfileEditState extends State<ProfileEdit> {
         .updateData({
       category: FieldValue.arrayRemove([userDocs[category][index]])
     });
-  }
+  } // General delete item function.
 
   void _pickedImage(File image) {
     _userImageFile = image;
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +139,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                         "Edit your username",
                         style: TextStyle(fontSize: 15),
                       ),
-                    ),
+                    ), // User can edit their username on this page.
                     IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () {
@@ -270,7 +270,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     style: TextStyle(fontSize: 15),
                   ),
                 ),
-                Row(
+                Row( // Works similar to username for school.
                   children: [
                     Container(
                       height: 40,
@@ -393,7 +393,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     style: TextStyle(fontSize: 15),
                   ),
                 ),
-                Row(
+                Row( // Description may be up to 150 characters, otherwise the same.
                   children: [
                     Container(
                       height: 40,
@@ -721,7 +721,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                         Container(
                           margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
                           child: Text(
-                            userDocs['test_scores'][index]['test'], //EDit here
+                            userDocs['test_scores'][index]['test'], //Edit here
                             style: TextStyle(fontSize: 10),
                           ),
                         ),
@@ -752,7 +752,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                   icon: Icon(Icons.add_circle_outline),
                   color: Colors.green,
                   onPressed: () {
-                    String test; //EDit
+                    String test; //Edit
                     String score; //Edit
                     final GlobalKey<FormState> _formKey =
                         GlobalKey<FormState>();
