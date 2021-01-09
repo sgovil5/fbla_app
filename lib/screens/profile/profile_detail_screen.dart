@@ -46,21 +46,21 @@ class ProfileDetail extends StatelessWidget {
     });
   }
   
-  Function to start a chat with a new user.
+  // Function to start a chat with a new user.
   Future<void> addChat(DocumentSnapshot recieveUser, String sendUser) async {
     final recieverData = await Firestore.instance
         .collection('users')
         .document(recieveUser.documentID)
         .collection('chat')
-        .where('reciever', isEqualTo: sendUser)
+        .where('reciever', isEqualTo: sendUser) // Finding the user you wish to chat with.
         .getDocuments()
         .then((value) {
       final recieverDocs = value.documents;
       print(recieverDocs);
-      if (recieverDocs.length == 0) {
+      if (recieverDocs.length == 0) { // Creation of a new conversation in backend if there is no pre-existing chat.
         Firestore.instance
             .collection('users')
-            .document(sendUser)
+            .document(sendUser) // One copy in sender.
             .collection('chat')
             .add({
           'messages': [
@@ -73,7 +73,7 @@ class ProfileDetail extends StatelessWidget {
         });
         Firestore.instance
             .collection('users')
-            .document(recieveUser.documentID)
+            .document(recieveUser.documentID) // One copy in receiver.
             .collection('chat')
             .add({
           'messages': [
@@ -113,13 +113,13 @@ class ProfileDetail extends StatelessWidget {
             bool isMe;
             String myUid = futureSnapshot.data.uid;
             final userDocs = userSnapshot.data;
-            if (myUid == user.documentID)
+            if (myUid == user.documentID) // Crucial in logic, determines whether the profile is user's.
               isMe = true;
             else
               isMe = false;
-            return Scaffold(
+            return Scaffold( // Displays profile page.
               appBar: AppBar(
-                title: Text(user['username']),
+                title: Text(user['username']), // Header
                 actions: [
                   IconButton(
                     icon: Icon(Icons.person_add), // Pressing add friend icon.
@@ -131,7 +131,7 @@ class ProfileDetail extends StatelessWidget {
                             return AlertDialog(
                               title: Text('This is your profile'),
                               content:
-                                  Text('You cannot add yourself as a friend'),
+                                  Text('You cannot add yourself as a friend'), // User cannot add themselves as a friend.
                               actions: [
                                 FlatButton(
                                   child: Text("Okay"),
@@ -144,19 +144,19 @@ class ProfileDetail extends StatelessWidget {
                           },
                         );
                       } else if (!(user['friends'].contains(myUid))) { // If user is not already friends with selected user.
-                        sendRequest(user, myUid);
+                        sendRequest(user, myUid); // Sends request
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text('Request Sent'),
+                              title: Text('Request Sent'), // Alerts user that request has been sent.
                               content:
                                   Text('Your friend request has been sent'),
                               actions: [
                                 FlatButton(
                                   child: Text("Okay"),
                                   onPressed: () {
-                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop(); // Press button to dismiss message.
                                   },
                                 )
                               ],
@@ -168,7 +168,7 @@ class ProfileDetail extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text('Can\'t send request'),
+                              title: Text('Can\'t send request'), // Alerts user that a request cannot be sent.
                               content: Text(
                                   'You are already friends with this user'),
                               actions: [
@@ -194,11 +194,11 @@ class ProfileDetail extends StatelessWidget {
                           builder: (context) {
                             return AlertDialog(
                               title: Text('This is your profile'),
-                              content: Text('You cannot chat with yourself'),
+                              content: Text('You cannot chat with yourself'), // App will not let the user chat with themselves.
                               actions: [
                                 FlatButton(
                                   child: Text("Okay"),
-                                  onPressed: () {
+                                  onPressed: () { // Dismiss message.
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -207,7 +207,7 @@ class ProfileDetail extends StatelessWidget {
                           },
                         );
                       } else {
-                        addChat(user, myUid).then((value) {
+                        addChat(user, myUid).then((value) { // Normal case, adds a new chat and navigates to it.
                           selectChat(context, user.documentID);
                         });
                       }
@@ -221,7 +221,7 @@ class ProfileDetail extends StatelessWidget {
                   )
                 ],
               ),
-              body: SingleChildScrollView(
+              body: SingleChildScrollView( // Allows scrollong.
                 child: Column(
                   children: [
                     Container(
@@ -239,6 +239,7 @@ class ProfileDetail extends StatelessWidget {
                             ),
                           ),
                           Expanded( // Displaying the in-depth profile page, also found on user's profile page.
+                            // Highlight components with comments.
                             child: Container(
                               padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                               child: Column(
@@ -248,7 +249,7 @@ class ProfileDetail extends StatelessWidget {
                                   Container(
                                     alignment: Alignment.topCenter,
                                     child: Text(
-                                      userDocs['username'],
+                                      userDocs['username'], // Displays username
                                       style: TextStyle(
                                         fontSize: 30,
                                       ),
@@ -259,7 +260,7 @@ class ProfileDetail extends StatelessWidget {
                                     padding: EdgeInsets.only(top: 15),
                                     height: 50,
                                     child: Text(
-                                      userDocs['school'],
+                                      userDocs['school'], // School
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 15,
@@ -275,9 +276,9 @@ class ProfileDetail extends StatelessWidget {
                     ),
                     Container(
                       padding: EdgeInsets.all(15),
-                      child: Text(userDocs['description']),
+                      child: Text(userDocs['description']), // Description
                     ),
-                    if (userDocs['classes'].length != 0)
+                    if (userDocs['classes'].length != 0) // Classes, spaced out and centered.
                       Container(
                         child: Text(
                           'This is a list of classes taken by ${userDocs['username']}',
@@ -285,7 +286,7 @@ class ProfileDetail extends StatelessWidget {
                         ),
                       ),
                     Container(
-                      width: double.infinity,
+                      width: double.infinity, // Allows for an indeterminate number of classes. Similar usage for other categories.
                       child: ListView.builder(
                         itemCount: userDocs['classes'].length,
                         shrinkWrap: true,
@@ -298,7 +299,7 @@ class ProfileDetail extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['test_scores'].length != 0)
+                    if (userDocs['test_scores'].length != 0) // Test scores, spaced out and centered.
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -319,7 +320,7 @@ class ProfileDetail extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['interests'].length != 0)
+                    if (userDocs['interests'].length != 0) // Interest, centered.
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -339,7 +340,7 @@ class ProfileDetail extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['achievements'].length != 0)
+                    if (userDocs['achievements'].length != 0) // Achievements, with parameters spaced out and centered.
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -360,7 +361,7 @@ class ProfileDetail extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['experiences'].length != 0)
+                    if (userDocs['experiences'].length != 0) // Experiences, with parameters spaced out and centered on screen.
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
