@@ -7,9 +7,22 @@ import 'package:fbla_app/widgets/profile/interest_item.dart';
 import 'package:fbla_app/widgets/profile/test_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import './user_overview_screen.dart';
+import '../../assets/fonts/my_flutter_app_icons.dart';
 
 class ProfileDetail extends StatelessWidget {
   static const routeName = '/profile-detail';
+
+  // Function to navigate to the user's profile page
+  void selectUserOverview(BuildContext context) {
+    Navigator.of(context)
+        .pushNamed(
+      UserOverview.routeName,
+    )
+        .then((result) {
+      if (result != null) {}
+    });
+  }
 
   void selectChat(BuildContext context, String recieverUid) {
     Navigator.of(context)
@@ -195,6 +208,12 @@ class ProfileDetail extends StatelessWidget {
                           selectChat(context, user.documentID);
                         });
                       }
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(MyFlutterApp.graduation_cap),
+                    onPressed: () {
+                      selectUserOverview(context);
                     },
                   )
                 ],

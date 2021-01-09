@@ -72,6 +72,10 @@ class ChatProfileItem extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 10,
+                  width: double.infinity,
+                ),
                 Divider(
                   thickness: 2,
                   color: Colors.black,

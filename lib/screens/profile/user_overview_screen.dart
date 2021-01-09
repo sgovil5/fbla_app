@@ -9,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserOverview extends StatelessWidget {
+  static const routeName = '/user-profile';
+
   void selectEditor(BuildContext context, String uid) {
     Navigator.of(context)
         .pushNamed(

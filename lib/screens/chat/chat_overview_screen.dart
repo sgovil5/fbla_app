@@ -2,9 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../assets/fonts/my_flutter_app_icons.dart';
 import '../../widgets/chat/chat_profile_item.dart';
+import '../profile/user_overview_screen.dart';
 
 class ChatOverview extends StatelessWidget {
+  // Function to navigate to the user's profile page
+  void selectUserOverview(BuildContext context) {
+    Navigator.of(context)
+        .pushNamed(
+      UserOverview.routeName,
+    )
+        .then((result) {
+      if (result != null) {}
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Returns a screen that displays all chats
@@ -12,6 +25,15 @@ class ChatOverview extends StatelessWidget {
       //Returns an App Bar with the title "Chat"
       appBar: AppBar(
         title: Text("Chat"),
+        actions: [
+          // Creates an icon button in the app bar to navigate to the user's profile
+          IconButton(
+            icon: Icon(MyFlutterApp.graduation_cap),
+            onPressed: () {
+              selectUserOverview(context);
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         // Returns a Future Builder with a future of the current user

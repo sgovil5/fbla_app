@@ -1,16 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../widgets/friends/pending_item.dart';
 import '../../widgets/profile/profile_preview.dart';
+import '../profile/user_overview_screen.dart';
+import '../../assets/fonts/my_flutter_app_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FriendsOverview extends StatelessWidget {
+  // Function to navigate to the user's profile page
+  void selectUserOverview(BuildContext context) {
+    Navigator.of(context)
+        .pushNamed(
+      UserOverview.routeName,
+    )
+        .then((result) {
+      if (result != null) {}
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Returns a page to show all the friends of a user
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Friends'),
+        actions: [
+          // Creates an icon button in the app bar to navigate to the user's profile
+          IconButton(
+            icon: Icon(MyFlutterApp.graduation_cap),
+            onPressed: () {
+              selectUserOverview(context);
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         // Returns a future with a future of the current user's information

@@ -3,9 +3,20 @@ import 'package:flutter/material.dart';
 
 import '../widgets/profile/profile_preview.dart';
 import './profile/profile_detail_screen.dart';
+import './profile/user_overview_screen.dart';
+import './../assets/fonts/my_flutter_app_icons.dart';
 
 class SearchScreen extends StatelessWidget {
-  @override
+  void selectUserOverview(BuildContext context) {
+    Navigator.of(context)
+        .pushNamed(
+      UserOverview.routeName,
+    )
+        .then((result) {
+      if (result != null) {}
+    });
+  }
+
   Widget buildCategory(BuildContext context, String category,
       SearchDelegate<String> searchType) {
     return InkWell(
@@ -37,6 +48,7 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -49,6 +61,12 @@ class SearchScreen extends StatelessWidget {
                 context: context,
                 delegate: NameSearch(),
               );
+            },
+          ),
+          IconButton(
+            icon: Icon(MyFlutterApp.graduation_cap),
+            onPressed: () {
+              selectUserOverview(context);
             },
           )
         ],

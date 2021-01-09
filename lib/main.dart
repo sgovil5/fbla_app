@@ -9,6 +9,7 @@ import 'blocs/auth_bloc.dart';
 import 'screens/chat/chat_detail_screen.dart';
 import 'screens/profile/profile_detail_screen.dart';
 import 'screens/profile/profile_edit.dart';
+import 'screens/profile/user_overview_screen.dart';
 
 void main() {
   runApp(Resudent()); // runs the Resudent Class to run the entire App
@@ -50,6 +51,7 @@ class Resudent extends StatelessWidget {
           ReportBug.routeName: (ctx) => ReportBug(),
           ProfileDetail.routeName: (ctx) => ProfileDetail(),
           ChatDetail.routeName: (ctx) => ChatDetail(),
+          UserOverview.routeName: (ctx) => UserOverview(),
         },
       ),
     );
