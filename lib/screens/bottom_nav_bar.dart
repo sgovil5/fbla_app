@@ -5,8 +5,9 @@ import 'profile/friends_overview_screen.dart';
 import '../screens/other/other_overview_screen.dart';
 import 'profile/user_overview_screen.dart';
 import '../screens/search_screen.dart';
+// Imports of screens that map to buttons on navigation bar.
 
-class BottomNavBar extends StatefulWidget {
+class BottomNavBar extends StatefulWidget { // Navigation bar that remains at the bottom of the app page, excluding authorization.
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
@@ -18,7 +19,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     ChatOverview(),
     SearchScreen(),
     OtherOverViewScreen(),
-  ];
+  ]; // List of pages for buttons to correspond to.
 
   int _selectedPageIndex = 0;
 
@@ -26,7 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {
       _selectedPageIndex = index;
     });
-  }
+  } // Changes state of app to selected screen.
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            title: Text('Other'),
+            title: Text('Other'), // Five categories or buttons that are displayed.
           ),
         ],
       ),
