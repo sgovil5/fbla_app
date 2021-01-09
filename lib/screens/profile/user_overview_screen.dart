@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 class UserOverview extends StatelessWidget {
   static const routeName = '/user-profile';
 
-  void selectEditor(BuildContext context, String uid) {
+  void selectEditor(BuildContext context, String uid) { // edit profile route function
     Navigator.of(context)
         .pushNamed(
       ProfileEdit.routeName,
@@ -30,7 +30,7 @@ class UserOverview extends StatelessWidget {
         if (futureSnapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(),
-          );
+          ); // Loads future builder.
         }
         return StreamBuilder(
           stream: Firestore.instance
@@ -41,7 +41,7 @@ class UserOverview extends StatelessWidget {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(),
-              );
+              ); // Retrieves user data
             }
             final userDocs = userSnapshot.data;
             return Scaffold(
@@ -49,9 +49,9 @@ class UserOverview extends StatelessWidget {
                 title: Text('My Profile'), // Header
                 actions: [
                   IconButton(
-                    icon: Icon(Icons.edit),
+                    icon: Icon(Icons.edit), // Edit button
                     onPressed: () {
-                      selectEditor(context, futureSnapshot.data.uid);
+                      selectEditor(context, futureSnapshot.data.uid); // calls method above.
                     },
                   ),
                 ],
@@ -72,7 +72,7 @@ class UserOverview extends StatelessWidget {
                               backgroundImage: userDocs['image_url'] == null
                                   ? NetworkImage(
                                       'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png')
-                                  : NetworkImage(userDocs['image_url']), // User Profile Picture or standard picture.
+                                  : NetworkImage(userDocs['image_url']), // User Profile Picture or standard picture if none.
                             ),
                           ),
                           Expanded(
@@ -126,7 +126,7 @@ class UserOverview extends StatelessWidget {
                         ),
                       ),
                     Container(
-                      width: double.infinity,
+                      width: double.infinity, // Creates and fills container for classes.
                       child: ListView.builder(
                         itemCount: userDocs['classes'].length,
                         shrinkWrap: true,
@@ -140,7 +140,7 @@ class UserOverview extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['test_scores'].length != 0) // Similarily for test scores
+                    if (userDocs['test_scores'].length != 0) // Similarily for test scores.
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -149,7 +149,7 @@ class UserOverview extends StatelessWidget {
                         ),
                       ),
                     Container(
-                      width: double.infinity,
+                      width: double.infinity, // Creates and fills container for test scores.
                       child: ListView.builder(
                         itemCount: userDocs['test_scores'].length,
                         shrinkWrap: true,
