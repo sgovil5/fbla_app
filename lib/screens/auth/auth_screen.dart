@@ -20,7 +20,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final _auth = FirebaseAuth.instance;
   var _isLoading = false;
 
-  // Function to create an array of search parameters by looking at every substring of a username
+  // Function to create an array of search parameters by looking at every substring of a username.
   List<String> setSearchParam(String inputTitle) {
     List<String> searchList = List();
     String temp = "";
@@ -31,7 +31,7 @@ class _AuthScreenState extends State<AuthScreen> {
     return searchList;
   }
 
-  // Function to sumbit data from an authentication form to Firebase and create a user account
+  // Function to submit data from an authentication form to Firebase and create a user account.
   void _submitAuthForm(
     String email,
     String password,
@@ -47,21 +47,21 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isLoading = true;
       });
-      // Checks if user is logging in or signing up
+      // Checks if user is logging in or signing up.
       if (isLogin) {
-        // If the user is logging in, the Firebase API will sign in with email and password
+        // If the user is logging in, the Firebase API will sign in with email and password.
         authResult = await _auth.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
       } else {
-        // If the user is signing up, the Firebase API will create a user with email and password
+        // If the user is signing up, the Firebase API will create a user with email and password.
         authResult = await _auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
 
-        //Sends the user image to Firebase Storage
+        // Sends the user image to Firebase Storage.
         final ref = FirebaseStorage.instance
             .ref()
             .child('user_image')
@@ -70,7 +70,7 @@ class _AuthScreenState extends State<AuthScreen> {
         await ref.putFile(image).onComplete;
         //Gets the link of the image from Firebase Storage
         final url = await ref.getDownloadURL();
-        //Creates a user with all the data submitted in the form and the image URL in Firebase
+        // Creates a user with all the data submitted in the form and the image URL in Firebase.
         await Firestore.instance
             .collection('users')
             .document(authResult.user.uid)
@@ -96,7 +96,7 @@ class _AuthScreenState extends State<AuthScreen> {
       if (err.message != null) {
         message = err.message;
       }
-      //If there is an error, a snackbar will be displayed showing the error
+      // If there is an error, a snackbar will be displayed showing the error.
       Scaffold.of(ctx).showSnackBar(
         SnackBar(
           content: Text(message),
@@ -116,25 +116,25 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Creates a reference to the AuthBloc class for login through Facebook
+    // Creates a reference to the AuthBloc class for login through Facebook.
     var authBloc = Provider.of<AuthBloc>(context);
-    // Returns a screen for the user authentication for both login and signup
+    // Returns a screen for the user authentication for both login and signup.
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      //Creates a column of widgets with center alignment
+      // Creates a column of widgets with center alignment.
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          //Adds an Auth Form to the column of widgets and passes in the submit auth form method and a boolean of "isLoading"
+          // Adds an Auth Form to the column of widgets and passes in the submit auth form method and a boolean of "isLoading".
           AuthForm(
             _submitAuthForm,
             _isLoading,
           ),
-          //Creates a button for signing in with facebook
+          // Creates a button for signing in with facebook.
           SignInButton(
             Buttons.Facebook,
             onPressed: () {
-              //Calls the loginFacebook method from the AuthBloc class to login with Facebook
+              // Calls the loginFacebook method from the AuthBloc class to login with Facebook.
               authBloc.loginFacebook(context);
             },
           )
