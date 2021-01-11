@@ -1,3 +1,4 @@
+import 'package:fbla_app/screens/other/terms_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +53,7 @@ class Resudent extends StatelessWidget {
           ProfileDetail.routeName: (ctx) => ProfileDetail(),
           ChatDetail.routeName: (ctx) => ChatDetail(),
           UserOverview.routeName: (ctx) => UserOverview(),
+          TermsService.routeName: (ctx) => TermsService(),
         },
       ),
     );
