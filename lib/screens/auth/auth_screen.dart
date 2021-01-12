@@ -122,23 +122,25 @@ class _AuthScreenState extends State<AuthScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       // Creates a column of widgets with center alignment.
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Adds an Auth Form to the column of widgets and passes in the submit auth form method and a boolean of "isLoading".
-          AuthForm(
-            _submitAuthForm,
-            _isLoading,
-          ),
-          // Creates a button for signing in with facebook.
-          SignInButton(
-            Buttons.Facebook,
-            onPressed: () {
-              // Calls the loginFacebook method from the AuthBloc class to login with Facebook.
-              authBloc.loginFacebook(context);
-            },
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Adds an Auth Form to the column of widgets and passes in the submit auth form method and a boolean of "isLoading".
+            AuthForm(
+              _submitAuthForm,
+              _isLoading,
+            ),
+            // Creates a button for signing in with facebook.
+            SignInButton(
+              Buttons.Facebook,
+              onPressed: () {
+                // Calls the loginFacebook method from the AuthBloc class to login with Facebook.
+                authBloc.loginFacebook(context);
+              },
+            )
+          ],
+        ),
       ),
     );
   }
