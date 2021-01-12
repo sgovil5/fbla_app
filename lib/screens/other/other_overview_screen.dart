@@ -1,5 +1,4 @@
-import 'package:fbla_app/screens/other/terms_service.dart';
-
+import '../other/terms_service.dart';
 import '../other/report_bug_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -7,16 +7,19 @@ class ClassItem extends StatelessWidget {
   ClassItem(this.cls, this.grade, this.year);
   @override
   Widget build(BuildContext context) {
-    return Row( // Each row consists of three categories, a class, grade, and year.
+    return Row(
+      // Each row consists of three categories, a class, grade, and year.
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        // // Creates a container with a margin to display the specific class
         Container(
           margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Text(
-            cls, // class text
+            cls,
             style: TextStyle(fontSize: 10),
           ),
         ),
+        // Creates a container with a margin to display the specific grade the user took a class in
         Container(
           margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Text(
@@ -24,6 +27,7 @@ class ClassItem extends StatelessWidget {
             style: TextStyle(fontSize: 10),
           ),
         ),
+        // Creates a container with a margin to display the specific year a student took a class in
         Container(
           margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Text(

@@ -7,9 +7,12 @@ class InterestItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Creates a row to show multiple widgets
     return Row(
+      // Centers the row vertically
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        // Creates a container with a margin to display the specific interest
         Container(
           margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Text(

@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fbla_app/screens/chat/chat_detail_screen.dart';
+import '../../screens/chat/chat_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class ChatProfileItem extends StatelessWidget {
+  // Function to navigate to chat with user and the selected receiving user
   void selectChat(BuildContext context, String recieverUid) {
     Navigator.of(context)
         .pushNamed(
@@ -18,6 +19,7 @@ class ChatProfileItem extends StatelessWidget {
   ChatProfileItem(this.recieverId);
   @override
   Widget build(BuildContext context) {
+    // Creates a stream to gather information about the user the message is being sent to
     return StreamBuilder(
       stream: Firestore.instance
           .collection('users')
@@ -30,8 +32,10 @@ class ChatProfileItem extends StatelessWidget {
           );
         }
         final user = snapshot.data;
+        // Creates a clickable preview
         return InkWell(
           onTap: () {
+            // navigates to the actual chat when the Card is clicked
             selectChat(context, recieverId);
           },
           child: Card(
@@ -40,6 +44,7 @@ class ChatProfileItem extends StatelessWidget {
               children: [
                 Row(
                   children: [
+                    // Displays the profile picture of the user
                     Container(
                       width: 100,
                       height: 100,
@@ -48,6 +53,7 @@ class ChatProfileItem extends StatelessWidget {
                         backgroundImage: NetworkImage(user['image_url']),
                       ),
                     ),
+                    // Displays the username of the recieving user with specific alignments and a fontsize of 30
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.all(20),
@@ -72,10 +78,12 @@ class ChatProfileItem extends StatelessWidget {
                     ),
                   ],
                 ),
+                // Creates an empty box
                 SizedBox(
                   height: 10,
                   width: double.infinity,
                 ),
+                // Creates a divider between the current user being displayed and the next user
                 Divider(
                   thickness: 2,
                   color: Colors.black,

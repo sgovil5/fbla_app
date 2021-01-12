@@ -7,6 +7,7 @@ import './profile/user_overview_screen.dart';
 import './../assets/fonts/my_flutter_app_icons.dart';
 
 class SearchScreen extends StatelessWidget {
+  // Function to navigate to the profile page of the current user
   void selectUserOverview(BuildContext context) {
     Navigator.of(context)
         .pushNamed(
@@ -17,12 +18,18 @@ class SearchScreen extends StatelessWidget {
     });
   }
 
+  // A function to create the UI of a category to search for
   Widget buildCategory(BuildContext context, String category,
       SearchDelegate<String> searchType) {
+    // Creates a clickable button that searches by the chosen category
     return InkWell(
       onTap: () {
-        showSearch(context: context, delegate: searchType); // Setup to search by Name, Interest, or School.
+        showSearch(
+            context: context,
+            delegate:
+                searchType); // Setup to search by Name, Interest, or School.
       },
+      // Creates a card that displays the text of the type of search
       child: Container(
         width: double.infinity,
         height: 100,
@@ -52,8 +59,10 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search for People'), // Search bar at top.
+        // Assigns title to search bar
+        title: Text('Search for People'),
         actions: [
+          // Creates a default way to search with an icon on the app bar which searches by name
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
@@ -63,6 +72,7 @@ class SearchScreen extends StatelessWidget {
               );
             },
           ),
+          // Creates an icon to navigate to the current user's profile page
           IconButton(
             icon: Icon(MyFlutterApp.graduation_cap), // Logo Integration.
             onPressed: () {
@@ -73,10 +83,11 @@ class SearchScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
+          // Builds the UI to search by the different categories
           children: [
             buildCategory(context, 'Search by Name', NameSearch()),
             buildCategory(context, 'Search by Interest', InterestSearch()),
-            buildCategory(context, 'Search by School', SchoolSearch()), // Three search categories.
+            buildCategory(context, 'Search by School', SchoolSearch()),
           ],
         ),
       ),
@@ -88,6 +99,7 @@ class NameSearch extends SearchDelegate<String> {
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
+      // Creates and Icon to clear the search once it is being typed
       IconButton(
         icon: Icon(Icons.clear),
         onPressed: () {
@@ -99,6 +111,7 @@ class NameSearch extends SearchDelegate<String> {
 
   @override
   Widget buildLeading(BuildContext context) {
+    // Creates and icon to close the current search and return to the previous page
     return IconButton(
       icon: AnimatedIcon(
         icon: AnimatedIcons.menu_arrow,
@@ -110,58 +123,10 @@ class NameSearch extends SearchDelegate<String> {
     );
   }
 
+  // Function to show the preview of a user searching a name
   @override
   Widget buildResults(BuildContext context) {
-    return StreamBuilder(
-      stream: Firestore.instance
-          .collection('users')
-          .where('searchKeywords', arrayContains: query.toLowerCase()) // Don't have to worry about capitalization.
-          .snapshots(),
-      builder: (ctx, userSnapshot) {
-        if (userSnapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        final userData = userSnapshot.data.documents;
-        return Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              height: 40,
-              child: Text(
-                'These are a list of people matching the search "$query"', // Displays results of search.
-                style: TextStyle(fontSize: 15),
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: userData.length,
-              itemBuilder: (ctx, index) {
-                return ProfilePreview(
-                  userData[index].documentID,
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void selectProfile(BuildContext context, DocumentSnapshot userDocument) {
-    Navigator.of(context)
-        .pushNamed(
-      ProfileDetail.routeName,
-      arguments: userDocument,
-    )
-        .then((result) {
-      if (result != null) {}
-    }); // When a user is clicked on, it navigates to their profile page.
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
+    // Creates a stream to gather data about the current users being searched from Firebase
     return StreamBuilder(
       stream: Firestore.instance
           .collection('users')
@@ -174,15 +139,74 @@ class NameSearch extends SearchDelegate<String> {
           );
         }
         final userData = userSnapshot.data.documents;
+        return Column(
+          children: [
+            // Creates a title to show the user's results for their query
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              height: 40,
+              child: Text(
+                'These are a list of people matching the search "$query"',
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+            // Displays all the users being searched
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: userData.length,
+              itemBuilder: (ctx, index) {
+                // Returns a preview of each shown user's profile
+                return ProfilePreview(
+                  userData[index].documentID,
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // When a user is clicked on, it navigates to their profile page.
+  void selectProfile(BuildContext context, DocumentSnapshot userDocument) {
+    Navigator.of(context)
+        .pushNamed(
+      ProfileDetail.routeName,
+      arguments: userDocument,
+    )
+        .then((result) {
+      if (result != null) {}
+    });
+  }
+
+  // Function to display suggestions for the search that a user performs
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // Creates a stream to gather data about the current users being searched from Firebase
+    return StreamBuilder(
+      stream: Firestore.instance
+          .collection('users')
+          .where('searchKeywords', arrayContains: query.toLowerCase())
+          .snapshots(),
+      builder: (ctx, userSnapshot) {
+        if (userSnapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        final userData = userSnapshot.data.documents;
+        // Displays all the users being searched
         return ListView.builder(
           shrinkWrap: true,
           itemCount: userData.length,
           itemBuilder: (ctx, index) {
+            // Returns a preview of the users being searched based on their username
             return ListTile(
               leading: Icon(Icons.person),
               title: Text(userData[index]['username']),
               onTap: () {
-                selectProfile(context, userData[index]); // Results function.
+                // When the preview is clicked, the app navigates to the selected user's profile page
+                selectProfile(context, userData[index]);
               },
             );
           },
@@ -194,6 +218,7 @@ class NameSearch extends SearchDelegate<String> {
 
 class InterestSearch extends SearchDelegate<String> {
   @override
+  // Creates and Icon to clear the search once it is being typed
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
@@ -205,6 +230,7 @@ class InterestSearch extends SearchDelegate<String> {
     ];
   }
 
+  // Creates and icon to close the current search and return to the previous page
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
@@ -218,8 +244,10 @@ class InterestSearch extends SearchDelegate<String> {
     );
   }
 
+  // Function to show the preview of a user searching for an interest
   @override
   Widget buildResults(BuildContext context) {
+    // Creates a stream to gather data about the current users with the interest being searched form Firebase
     return StreamBuilder(
       stream: Firestore.instance
           .collection('users')
@@ -234,6 +262,7 @@ class InterestSearch extends SearchDelegate<String> {
         final userData = userSnapshot.data.documents;
         return Column(
           children: [
+            // Creates a title to show the user's results for their query
             Container(
               margin: EdgeInsets.only(top: 20),
               height: 40,
@@ -242,12 +271,14 @@ class InterestSearch extends SearchDelegate<String> {
                 style: TextStyle(fontSize: 15),
               ),
             ),
+            // Displays all the users being searched
             ListView.builder(
               shrinkWrap: true,
               itemCount: userData.length,
               itemBuilder: (ctx, index) {
+                // Returns a preview of each shown user's profile
                 return ProfilePreview(
-                  userData[index].documentID, // Search by interest.
+                  userData[index].documentID,
                 );
               },
             ),
@@ -257,6 +288,7 @@ class InterestSearch extends SearchDelegate<String> {
     );
   }
 
+  // When a user is clicked on, it navigates to their profile page.
   void selectProfile(BuildContext context, DocumentSnapshot userDocument) {
     Navigator.of(context)
         .pushNamed(
@@ -268,8 +300,10 @@ class InterestSearch extends SearchDelegate<String> {
     });
   }
 
+  // Function to display suggestions for the search that a user performs
   @override
   Widget buildSuggestions(BuildContext context) {
+    // Creates a stream to gather data about the current users with interest being searched from Firebase
     return StreamBuilder(
       stream: Firestore.instance
           .collection('users')
@@ -285,6 +319,7 @@ class InterestSearch extends SearchDelegate<String> {
         return Column(
           children: [
             if (query.isNotEmpty)
+              // Displays all the users being searched
               Container(
                 margin: EdgeInsets.only(top: 20),
                 height: 40,
@@ -297,10 +332,12 @@ class InterestSearch extends SearchDelegate<String> {
               shrinkWrap: true,
               itemCount: userData.length,
               itemBuilder: (ctx, index) {
+                // Returns a preview of the users being searched containing their username
                 return ListTile(
                   leading: Icon(Icons.person),
                   title: Text(userData[index]['username']),
                   onTap: () {
+                    // When the preview is clicked, the app navigates to the selected user's profile page
                     selectProfile(context, userData[index]);
                   },
                 );
@@ -315,6 +352,7 @@ class InterestSearch extends SearchDelegate<String> {
 
 class SchoolSearch extends SearchDelegate<String> {
   @override
+  // Creates and Icon to clear the search once it is being typed
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
@@ -326,6 +364,7 @@ class SchoolSearch extends SearchDelegate<String> {
     ];
   }
 
+  // Creates and icon to close the current search and return to the previous page
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
@@ -339,8 +378,10 @@ class SchoolSearch extends SearchDelegate<String> {
     );
   }
 
+  // Function to show the preview of a user searching by a school
   @override
-  Widget buildResults(BuildContext context) { // Search by school.
+  Widget buildResults(BuildContext context) {
+    // Creates a stream to gather data about the current users with the school being searched from Firebase
     return StreamBuilder(
       stream: Firestore.instance
           .collection('users')
@@ -355,6 +396,7 @@ class SchoolSearch extends SearchDelegate<String> {
         final userData = userSnapshot.data.documents;
         return Column(
           children: [
+            // Creates a title to show the user's results for their query
             Container(
               margin: EdgeInsets.only(top: 20),
               height: 40,
@@ -363,10 +405,12 @@ class SchoolSearch extends SearchDelegate<String> {
                 style: TextStyle(fontSize: 15),
               ),
             ),
+            // Displays all the users being searched
             ListView.builder(
               shrinkWrap: true,
               itemCount: userData.length,
               itemBuilder: (ctx, index) {
+                // Returns a preview of each shown user's profile
                 return ProfilePreview(
                   userData[index].documentID,
                 );
@@ -378,6 +422,7 @@ class SchoolSearch extends SearchDelegate<String> {
     );
   }
 
+  // When a user is clicked on, it navigates to their profile page.
   void selectProfile(BuildContext context, DocumentSnapshot userDocument) {
     Navigator.of(context)
         .pushNamed(
@@ -389,8 +434,10 @@ class SchoolSearch extends SearchDelegate<String> {
     });
   }
 
+  // Function to display suggestions for the search that a user performs
   @override
   Widget buildSuggestions(BuildContext context) {
+    // Creates a stream to gather data about the current users being searched from Firebase
     return StreamBuilder(
       stream: Firestore.instance
           .collection('users')
@@ -406,6 +453,7 @@ class SchoolSearch extends SearchDelegate<String> {
         return Column(
           children: [
             if (query.isNotEmpty)
+              // Creates a title to show the results of a user's query
               Container(
                 margin: EdgeInsets.only(top: 20),
                 height: 40,
@@ -414,14 +462,17 @@ class SchoolSearch extends SearchDelegate<String> {
                   style: TextStyle(fontSize: 15),
                 ),
               ),
+            // Displays all the users being searched
             ListView.builder(
               shrinkWrap: true,
               itemCount: userData.length,
               itemBuilder: (ctx, index) {
+                // Returns a preview of the users being searched based on their username
                 return ListTile(
                   leading: Icon(Icons.person),
                   title: Text(userData[index]['username']),
                   onTap: () {
+                    // When the preview is clicked, the app navigates to the selected user's profile page
                     selectProfile(context, userData[index]);
                   },
                 );

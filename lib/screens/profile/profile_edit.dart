@@ -46,6 +46,8 @@ class _ProfileEditState extends State<ProfileEdit> {
           final userDocs = userSnapshot.data;
           return SingleChildScrollView(
             child: Column(
+              // CHECK IF THIS WORKS
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   height: 40,

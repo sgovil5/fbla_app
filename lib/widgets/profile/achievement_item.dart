@@ -9,9 +9,12 @@ class AchievementItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Creates a row for to display multiple widgets
     return Row(
+      // Makes the alignment centered
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        // Creates a container with a margin to display the specific acheivement
         Container(
           margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Text(
@@ -19,6 +22,7 @@ class AchievementItem extends StatelessWidget {
             style: TextStyle(fontSize: 10),
           ),
         ),
+        // Creates a container with a margin to display the specific year of the acheivement
         Container(
           margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Text(
@@ -29,5 +33,5 @@ class AchievementItem extends StatelessWidget {
       ],
     );
   }
-  // Centering and font size are set. 
+  // Centering and font size are set.
 }

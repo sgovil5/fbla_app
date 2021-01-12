@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TermsService extends StatelessWidget {
+  //Assigns route name for the page
   static const routeName = '/terms-service';
 
   @override
@@ -9,6 +10,7 @@ class TermsService extends StatelessWidget {
       appBar: AppBar(
         title: Text("Terms and service"),
       ),
+      //Creates a Scrollable view of the terms and conditions text
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.all(20),

@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fbla_app/screens/chat/chat_detail_screen.dart';
-import 'package:fbla_app/widgets/profile/achievement_item.dart';
-import 'package:fbla_app/widgets/profile/class_item.dart';
-import 'package:fbla_app/widgets/profile/experience_item.dart';
-import 'package:fbla_app/widgets/profile/interest_item.dart';
-import 'package:fbla_app/widgets/profile/test_item.dart';
+import '../../screens/chat/chat_detail_screen.dart';
+import '../../widgets/profile/achievement_item.dart';
+import '../../widgets/profile/class_item.dart';
+import '../../widgets/profile/experience_item.dart';
+import '../../widgets/profile/interest_item.dart';
+import '../../widgets/profile/test_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import './user_overview_screen.dart';
@@ -23,7 +23,7 @@ class ProfileDetail extends StatelessWidget {
       if (result != null) {}
     });
   }
-  
+
   // Function to navigate to the selected chat.
   void selectChat(BuildContext context, String recieverUid) {
     Navigator.of(context)
@@ -35,7 +35,7 @@ class ProfileDetail extends StatelessWidget {
       if (result != null) {}
     });
   }
-  
+
   // Function to send a friend request.
   void sendRequest(DocumentSnapshot recieveUser, String sendUser) {
     Firestore.instance
@@ -45,22 +45,26 @@ class ProfileDetail extends StatelessWidget {
       'pending': FieldValue.arrayUnion([sendUser])
     });
   }
-  
+
   // Function to start a chat with a new user.
   Future<void> addChat(DocumentSnapshot recieveUser, String sendUser) async {
     final recieverData = await Firestore.instance
         .collection('users')
         .document(recieveUser.documentID)
         .collection('chat')
-        .where('reciever', isEqualTo: sendUser) // Finding the user you wish to chat with.
+        .where('reciever',
+            isEqualTo:
+                sendUser) // Finding the user current user wishes to chat with.
         .getDocuments()
         .then((value) {
       final recieverDocs = value.documents;
       print(recieverDocs);
-      if (recieverDocs.length == 0) { // Creation of a new conversation in backend if there is no pre-existing chat.
+      if (recieverDocs.length == 0) {
+        // Creation of a new conversation in Firebase if there is no pre-existing chat.
+        // Creates document in chat collection of sending user to start initiate a conversation
         Firestore.instance
             .collection('users')
-            .document(sendUser) // One copy in sender.
+            .document(sendUser)
             .collection('chat')
             .add({
           'messages': [
@@ -71,9 +75,10 @@ class ProfileDetail extends StatelessWidget {
           ],
           'reciever': recieveUser.documentID,
         });
+        // Creates document in chat collection of recieving user to start initiate a conversation
         Firestore.instance
             .collection('users')
-            .document(recieveUser.documentID) // One copy in receiver.
+            .document(recieveUser.documentID)
             .collection('chat')
             .add({
           'messages': [
@@ -89,8 +94,10 @@ class ProfileDetail extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) { // viewing a profile screen.
+  Widget build(BuildContext context) {
+    // Gets information about the user through the page that it as navigated from
     final DocumentSnapshot user = ModalRoute.of(context).settings.arguments;
+    // Creates a future builder to get data about the current user
     return FutureBuilder(
       future: FirebaseAuth.instance.currentUser(),
       builder: (ctx, futureSnapshot) {
@@ -98,7 +105,8 @@ class ProfileDetail extends StatelessWidget {
           return Center(
             child: CircularProgressIndicator(),
           );
-        } // Loading.
+        }
+        // Creates a stream to get information about the user and their profile
         return StreamBuilder(
           stream: Firestore.instance
               .collection('users')
@@ -113,25 +121,30 @@ class ProfileDetail extends StatelessWidget {
             bool isMe;
             String myUid = futureSnapshot.data.uid;
             final userDocs = userSnapshot.data;
-            if (myUid == user.documentID) // Crucial in logic, determines whether the profile is user's.
+            // Checks if the user is on their own page
+            if (myUid == user.documentID)
               isMe = true;
             else
               isMe = false;
-            return Scaffold( // Displays profile page.
+            return Scaffold(
+              // Displays profile page.
               appBar: AppBar(
                 title: Text(user['username']), // Header
                 actions: [
+                  // Creates an icon to add a friend in the App Bar
                   IconButton(
-                    icon: Icon(Icons.person_add), // Pressing add friend icon.
+                    icon: Icon(Icons.person_add),
                     onPressed: () {
-                      if (isMe) { // If user tries to friend themselves. 
+                      //If the user tries to friend themselves
+                      if (isMe) {
                         showDialog(
                           context: context,
                           builder: (context) {
+                            // Alert shows up prompting user that they can't friend themselves
                             return AlertDialog(
                               title: Text('This is your profile'),
                               content:
-                                  Text('You cannot add yourself as a friend'), // User cannot add themselves as a friend.
+                                  Text('You cannot add yourself as a friend'),
                               actions: [
                                 FlatButton(
                                   child: Text("Okay"),
@@ -143,32 +156,37 @@ class ProfileDetail extends StatelessWidget {
                             );
                           },
                         );
-                      } else if (!(user['friends'].contains(myUid))) { // If user is not already friends with selected user.
+                      } else if (!(user['friends'].contains(myUid))) {
+                        // If user is not already friends with selected user.
                         sendRequest(user, myUid); // Sends request
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text('Request Sent'), // Alerts user that request has been sent.
+                              title: Text(
+                                  'Request Sent'), // Alerts user that request has been sent.
                               content:
                                   Text('Your friend request has been sent'),
                               actions: [
                                 FlatButton(
                                   child: Text("Okay"),
                                   onPressed: () {
-                                    Navigator.of(context).pop(); // Press button to dismiss message.
+                                    Navigator.of(context)
+                                        .pop(); // Press button to dismiss message.
                                   },
                                 )
                               ],
                             );
                           },
                         );
-                      } else { // User is friends with selected user.
+                      } else {
+                        // User is friends with selected user.
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text('Can\'t send request'), // Alerts user that a request cannot be sent.
+                              title: Text(
+                                  'Can\'t send request'), // Alerts user that a request cannot be sent.
                               content: Text(
                                   'You are already friends with this user'),
                               actions: [
@@ -188,17 +206,20 @@ class ProfileDetail extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.message),
                     onPressed: () {
-                      if (isMe) { // If user tries to chat with themselves.
+                      if (isMe) {
+                        // If user tries to chat with themselves.
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
                               title: Text('This is your profile'),
-                              content: Text('You cannot chat with yourself'), // App will not let the user chat with themselves.
+                              content: Text(
+                                  'You cannot chat with yourself'), // App will not let the user chat with themselves.
                               actions: [
                                 FlatButton(
                                   child: Text("Okay"),
-                                  onPressed: () { // Dismiss message.
+                                  onPressed: () {
+                                    // Dismiss message.
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -207,21 +228,24 @@ class ProfileDetail extends StatelessWidget {
                           },
                         );
                       } else {
-                        addChat(user, myUid).then((value) { // Normal case, adds a new chat and navigates to it.
+                        // Creates a new chat and navigates to the new chat
+                        addChat(user, myUid).then((value) {
                           selectChat(context, user.documentID);
                         });
                       }
                     },
                   ),
+                  // Allows for the user to click the icon and brings them back to their own profile page
                   IconButton(
-                    icon: Icon(MyFlutterApp.graduation_cap), // Integration of logo.
+                    icon: Icon(MyFlutterApp.graduation_cap),
                     onPressed: () {
                       selectUserOverview(context);
                     },
                   )
                 ],
               ),
-              body: SingleChildScrollView( // Allows scrollong.
+              body: SingleChildScrollView(
+                // Allows scrollong.
                 child: Column(
                   children: [
                     Container(
@@ -238,7 +262,8 @@ class ProfileDetail extends StatelessWidget {
                                   NetworkImage(userDocs['image_url']),
                             ),
                           ),
-                          Expanded( // Displaying the in-depth profile page, also found on user's profile page.
+                          Expanded(
+                            // Displaying the in-depth profile page, also found on user's profile page.
                             // Highlight components with comments.
                             child: Container(
                               padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
@@ -278,7 +303,8 @@ class ProfileDetail extends StatelessWidget {
                       padding: EdgeInsets.all(15),
                       child: Text(userDocs['description']), // Description
                     ),
-                    if (userDocs['classes'].length != 0) // Classes, spaced out and centered.
+                    if (userDocs['classes'].length !=
+                        0) // Classes, spaced out and centered.
                       Container(
                         child: Text(
                           'This is a list of classes taken by ${userDocs['username']}',
@@ -286,7 +312,8 @@ class ProfileDetail extends StatelessWidget {
                         ),
                       ),
                     Container(
-                      width: double.infinity, // Allows for an indeterminate number of classes. Similar usage for other categories.
+                      width: double
+                          .infinity, // Allows for an indeterminate number of classes. Similar usage for other categories.
                       child: ListView.builder(
                         itemCount: userDocs['classes'].length,
                         shrinkWrap: true,
@@ -299,7 +326,8 @@ class ProfileDetail extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['test_scores'].length != 0) // Test scores, spaced out and centered.
+                    if (userDocs['test_scores'].length !=
+                        0) // Test scores, spaced out and centered.
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -320,7 +348,8 @@ class ProfileDetail extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['interests'].length != 0) // Interest, centered.
+                    if (userDocs['interests'].length !=
+                        0) // Interest, centered.
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -340,7 +369,8 @@ class ProfileDetail extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['achievements'].length != 0) // Achievements, with parameters spaced out and centered.
+                    if (userDocs['achievements'].length !=
+                        0) // Achievements, with parameters spaced out and centered.
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -361,7 +391,8 @@ class ProfileDetail extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (userDocs['experiences'].length != 0) // Experiences, with parameters spaced out and centered on screen.
+                    if (userDocs['experiences'].length !=
+                        0) // Experiences, with parameters spaced out and centered on screen.
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -369,6 +400,7 @@ class ProfileDetail extends StatelessWidget {
                           style: TextStyle(fontSize: 15),
                         ),
                       ),
+                    // Creates a list of all parameters of a user's experience
                     Container(
                       margin: EdgeInsets.only(bottom: 20),
                       width: double.infinity,
