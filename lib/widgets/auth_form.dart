@@ -157,7 +157,7 @@ class _AuthFormState extends State<AuthForm> {
                         labelText: 'Description About Yourself',
                       ),
                       onSaved: (value) {
-                        _userSchool = value;
+                        _userDescription = value;
                       },
                     ),
                   TextFormField(
