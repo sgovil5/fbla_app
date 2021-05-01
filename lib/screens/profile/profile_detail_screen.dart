@@ -237,7 +237,7 @@ class ProfileDetail extends StatelessWidget {
                   ),
                   // Allows for the user to click the icon and brings them back to their own profile page
                   IconButton(
-                    icon: Icon(MyFlutterApp.graduation_cap),
+                    icon: Image.asset('lib/assets/icons/Logo_Circular.png'),
                     onPressed: () {
                       selectUserOverview(context);
                     },

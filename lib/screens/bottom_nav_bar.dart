@@ -1,3 +1,4 @@
+import 'package:fbla_app/screens/community/community_overview.dart';
 import 'package:flutter/material.dart';
 
 import 'chat/chat_overview_screen.dart';
@@ -7,7 +8,8 @@ import 'profile/user_overview_screen.dart';
 import '../screens/search_screen.dart';
 // Imports of screens that map to buttons on navigation bar.
 
-class BottomNavBar extends StatefulWidget { // Navigation bar that remains at the bottom of the app page, excluding authorization.
+class BottomNavBar extends StatefulWidget {
+  // Navigation bar that remains at the bottom of the app page, excluding authorization.
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
@@ -18,6 +20,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     FriendsOverview(),
     ChatOverview(),
     SearchScreen(),
+    CommunityOverview(),
     OtherOverViewScreen(),
   ]; // List of pages for buttons to correspond to.
 
@@ -27,10 +30,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {
       _selectedPageIndex = index;
     });
-  } // Changes state of app to selected screen. 
+  } // Changes state of app to selected screen.
 
   @override
-  Widget build(BuildContext context) { // Builds navigation bar.
+  Widget build(BuildContext context) {
+    // Builds navigation bar.
     return Scaffold(
       body: _pages[_selectedPageIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -39,7 +43,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         unselectedItemColor: Colors.black,
         selectedItemColor: Colors.blueAccent,
         backgroundColor: Colors.lightBlueAccent, // Chooses color theme.
-        currentIndex: _selectedPageIndex, // Sets public variable to selected index.
+        currentIndex:
+            _selectedPageIndex, // Sets public variable to selected index.
         selectedFontSize: 20,
         items: [
           BottomNavigationBarItem(
@@ -59,8 +64,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
             title: Text('Search'),
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text("Community"),
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            title: Text('Other'), // Five categories or buttons that are displayed.
+            title: Text('Other'),
           ),
         ],
       ),

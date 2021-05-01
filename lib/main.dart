@@ -1,3 +1,4 @@
+import 'package:fbla_app/screens/community/community_detail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +53,7 @@ class Resudent extends StatelessWidget {
           ReportBug.routeName: (ctx) => ReportBug(),
           ProfileDetail.routeName: (ctx) => ProfileDetail(),
           ChatDetail.routeName: (ctx) => ChatDetail(),
+          CommunityDetail.routeName: (ctx) => CommunityDetail(),
           UserOverview.routeName: (ctx) => UserOverview(),
           TermsService.routeName: (ctx) => TermsService(),
         },

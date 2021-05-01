@@ -27,7 +27,7 @@ class FriendsOverview extends StatelessWidget {
         actions: [
           // Creates an icon button in the app bar to navigate to the user's profile
           IconButton(
-            icon: Icon(MyFlutterApp.graduation_cap),
+            icon: Image.asset('lib/assets/icons/Logo_Circular.png'),
             onPressed: () {
               selectUserOverview(context);
             },

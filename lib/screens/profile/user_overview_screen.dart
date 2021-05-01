@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 class UserOverview extends StatelessWidget {
   static const routeName = '/user-profile';
 
-  void selectEditor(BuildContext context, String uid) { // edit profile route function
+  void selectEditor(BuildContext context, String uid) {
+    // edit profile route function
     Navigator.of(context)
         .pushNamed(
       ProfileEdit.routeName,
@@ -23,7 +24,8 @@ class UserOverview extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) { // Displays the My Profile Page.
+  Widget build(BuildContext context) {
+    // Displays the My Profile Page.
     return FutureBuilder(
       future: FirebaseAuth.instance.currentUser(),
       builder: (ctx, futureSnapshot) {
@@ -51,7 +53,8 @@ class UserOverview extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.edit), // Edit button
                     onPressed: () {
-                      selectEditor(context, futureSnapshot.data.uid); // calls method above.
+                      selectEditor(context,
+                          futureSnapshot.data.uid); // calls method above.
                     },
                   ),
                 ],
@@ -72,7 +75,8 @@ class UserOverview extends StatelessWidget {
                               backgroundImage: userDocs['image_url'] == null
                                   ? NetworkImage(
                                       'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png')
-                                  : NetworkImage(userDocs['image_url']), // User Profile Picture or standard picture if none.
+                                  : NetworkImage(userDocs[
+                                      'image_url']), // User Profile Picture or standard picture if none.
                             ),
                           ),
                           Expanded(
@@ -87,23 +91,25 @@ class UserOverview extends StatelessWidget {
                                     child: Text(
                                       userDocs['username'] == ''
                                           ? 'No username'
-                                          : userDocs['username'], // Displays username.
+                                          : userDocs[
+                                              'username'], // Displays username.
                                       style: TextStyle(
-                                        fontSize: 30,
+                                        fontSize: 25,
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    height: 50,
-                                    alignment: Alignment.center,
-                                    padding: EdgeInsets.only(top: 15),
+                                    height: 40,
+                                    alignment: Alignment.topCenter,
+                                    padding: EdgeInsets.only(top: 10),
                                     child: Text(
                                       userDocs['school'] == ''
                                           ? 'No School'
-                                          : userDocs['school'], // Displays School.
+                                          : userDocs[
+                                              'school'], // Displays School.
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontSize: 15,
+                                        fontSize: 10,
                                       ),
                                     ),
                                   ),
@@ -116,7 +122,8 @@ class UserOverview extends StatelessWidget {
                     ),
                     Container(
                       padding: EdgeInsets.all(15),
-                      child: Text(userDocs['description']), // Displays description.
+                      child: Text(
+                          userDocs['description']), // Displays description.
                     ),
                     if (userDocs['classes'].length != 0)
                       Container(
@@ -126,7 +133,8 @@ class UserOverview extends StatelessWidget {
                         ),
                       ),
                     Container(
-                      width: double.infinity, // Creates and fills container for classes.
+                      width: double
+                          .infinity, // Creates and fills container for classes.
                       child: ListView.builder(
                         itemCount: userDocs['classes'].length,
                         shrinkWrap: true,
@@ -135,12 +143,14 @@ class UserOverview extends StatelessWidget {
                           return ClassItem(
                             userDocs['classes'][index]['class'],
                             userDocs['classes'][index]['grade'],
-                            userDocs['classes'][index]['year'], // centered and spaced out properly.
+                            userDocs['classes'][index]
+                                ['year'], // centered and spaced out properly.
                           );
                         },
                       ),
                     ),
-                    if (userDocs['test_scores'].length != 0) // Similarily for test scores.
+                    if (userDocs['test_scores'].length !=
+                        0) // Similarily for test scores.
                       Container(
                         margin: EdgeInsets.only(top: 15),
                         child: Text(
@@ -149,7 +159,8 @@ class UserOverview extends StatelessWidget {
                         ),
                       ),
                     Container(
-                      width: double.infinity, // Creates and fills container for test scores.
+                      width: double
+                          .infinity, // Creates and fills container for test scores.
                       child: ListView.builder(
                         itemCount: userDocs['test_scores'].length,
                         shrinkWrap: true,
