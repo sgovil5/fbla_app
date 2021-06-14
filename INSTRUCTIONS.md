@@ -1,4 +1,7 @@
-# Instructions
+# Correlation to Prompt
+**Resudent is a social platform that utilizes a profile, friend, and chat system to give students interested in their professional careers a platform to meet others. Resudent forms large networks of people interested in specific topics throught the world, and it allows students to learn from each other. Resudent is a novel idea in the fact that it is targeted specifically towards students, which no apps have done before.**
+
+# Installation Instructions
 These are the instructions to run the files on GitHub on a local device.
 ## Prerequisites
 - [Install Git](https://git-scm.com/downloads)
