@@ -1,11 +1,11 @@
 # Resudent
 <p align="center">
-<img src="https://user-images.githubusercontent.com/54728068/103335903-82587980-4a44-11eb-9919-cc75da9d6160.png" alt="Resudent" width=300>
+<img src="https://user-images.githubusercontent.com/54728068/103335903-82587980-4a44-11eb-9919-cc75da9d6160.png" alt="Resudent" width=200>
 </p>
 
-## FBLA Mobile App Development 2020-2021
-## Marvin Ridge High School
-## Team Members: Shitij Govil and Vibhu Gomatam
+FBLA Mobile App Development 2020-2021\
+Marvin Ridge High School\
+Team Members: Shitij Govil and Vibhu Gomatam
 
 # Correlation
 **Resudent is a social platform that utilizes a profile, friend, and chat system to give students interested in their professional careers a platform to meet others. Resudent forms large networks of people interested in specific topics throught the world, and it allows students to learn from each other. Resudent is a novel idea in the fact that it is targeted specifically towards students, which no apps have done before.**
