@@ -7,7 +7,8 @@
 ## Marvin Ridge High School
 ## Team Members: Shitij Govil and Vibhu Gomatam
 
-Resudent is a social platform with a goal to connect students with other individuals and communities, inside or outside of a school environment, to help create a network and interact with people of similar interests.
+# Correlation
+**Resudent is a social platform that utilizes a profile, friend, and chat system to give students interested in their professional careers a platform to meet others. Resudent forms large networks of people interested in specific topics throught the world, and it allows students to learn from each other. Resudent is a novel idea in the fact that it is targeted specifically towards students, which no apps have done before.**
 
 # Features
 - [Login](#Login) (Internal and Facebook)
